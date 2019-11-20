@@ -23,27 +23,28 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     var flashEffectView = UIView()
     var imageView: UIImageView!
     var currentImage: UIImage!
-    var currentFilter: CIFilter!
     var slider: UISlider!
     var motionManager: CMMotionManager!
-    
-    //buttons
-    let buttonCameraShot = UIButton(type: .system)
-  
+    enum flashMode {
+        case off
+        case on
+        case auto
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         captureDevice = getDevice(position: .back)
         
-//        imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: (view.center.y / 2) - 15), size: CGSize(width: view.frame.size.width, height: view.frame.size.width)))
+        // transparent navigation bar
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clear
+
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.frame.size.width, height: view.frame.size.height)))
-        //flashEffectView.alpha = 1
-        //flashEffectView.backgroundColor = UIColor.red
-        //flashEffectView.layer.zPosition = 0
         view.addSubview(imageView)
-        
-        currentFilter = CIFilter(name: "CISepiaTone")
-        
+                
         slider = UISlider(frame: CGRect(origin: CGPoint(x: view.frame.size.width - 120, y: 50), size: CGSize(width: 200, height: 400)))
         slider.transform = CGAffineTransform(rotationAngle: .pi / 2)
         slider.maximumValue = 100
@@ -51,16 +52,15 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         slider.value = 50
         slider.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
         view.addSubview(slider)
+  
+        //buttons
+        let buttonCameraSwitch = UIBarButtonItem(title: "switch camera", style: .plain, target: self, action: #selector(switchCamera))
+        let buttonFlashSwitch = UIBarButtonItem(title: "flash", style: .plain, target: self, action: #selector(switchFlash))
+        let buttonImportPicture = UIBarButtonItem(title: "Add Stencil", style: .plain, target: self, action: #selector(importPicture))
+        navigationItem.leftBarButtonItems = [buttonCameraSwitch, buttonFlashSwitch]
+        navigationItem.rightBarButtonItem = buttonImportPicture
         
-        let buttonCameraSwitch = UIButton(type: .system)
-        buttonCameraSwitch.translatesAutoresizingMaskIntoConstraints = false
-        buttonCameraSwitch.setTitle("switch", for: .normal)
-        buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: .touchUpInside)
-        buttonCameraSwitch.layer.borderWidth = 1
-        buttonCameraSwitch.layer.borderColor = UIColor.lightGray.cgColor
-        buttonCameraSwitch.layer.zPosition = 1
-        view.addSubview(buttonCameraSwitch)
-        
+        let buttonCameraShot = UIButton(type: .system)
         buttonCameraShot.translatesAutoresizingMaskIntoConstraints = false
         buttonCameraShot.setTitle("shot", for: .normal)
         buttonCameraShot.addTarget(self, action: #selector(capturePhoto), for: .touchUpInside)
@@ -70,33 +70,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         buttonCameraShot.layer.cornerRadius = 50
         view.addSubview(buttonCameraShot)
         
-        let buttonImportPicture = UIButton(type: .system)
-        buttonImportPicture.translatesAutoresizingMaskIntoConstraints = false
-        buttonImportPicture.setTitle("Add Layer", for: .normal)
-        buttonImportPicture.addTarget(self, action: #selector(importPicture), for: .touchUpInside)
-        buttonImportPicture.layer.borderWidth = 1
-        buttonImportPicture.layer.borderColor = UIColor.lightGray.cgColor
-        buttonImportPicture.layer.zPosition = 1
-        view.addSubview(buttonImportPicture)
-        
         flashEffectView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.frame.size.width, height: view.frame.size.height)))
         flashEffectView.alpha = 0
         flashEffectView.backgroundColor = UIColor.white
         view.addSubview(flashEffectView)
     
         NSLayoutConstraint.activate([
-            buttonImportPicture.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            buttonImportPicture.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100),
-            buttonImportPicture.heightAnchor.constraint(equalToConstant: 44),
-            
-            slider.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            //slider.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100),
-            //slider.heightAnchor.constraint(equalToConstant: 44),
-            
-            buttonCameraSwitch.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            buttonCameraSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
-            buttonCameraSwitch.heightAnchor.constraint(equalToConstant: 44),
-            
             buttonCameraShot.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
             buttonCameraShot.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
             buttonCameraShot.heightAnchor.constraint(equalToConstant: 100),
@@ -131,7 +110,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     func beginNewSession() {
         if let input = try? AVCaptureDeviceInput(device: captureDevice!) {
             if captureSession.canAddInput(input) {
-                print("Can!")
                 self.captureSession.addInput(input)
                 self.captureSession.addOutput(cameraOutput)
                 let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -179,6 +157,34 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         beginNewSession()
     }
     
+    @objc func switchFlash() {
+//        let settings = AVCapturePhotoSettings()
+//           print(settings.flashMode.rawValue)
+//        settings.flashMode = .on
+       
+        
+        let ac = UIAlertController(title: "Flash Mode", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "on", style: .default, handler: setFlashMode))
+        ac.addAction(UIAlertAction(title: "off", style: .default, handler: setFlashMode))
+        ac.addAction(UIAlertAction(title: "auto", style: .default, handler: setFlashMode))
+        present(ac, animated: true)
+    }
+    
+    func setFlashMode (action: UIAlertAction) {
+        //let settings = AVCapturePhotoSettings()
+        
+//        switch action.title {
+//        case "on" :
+//            flashMode = 0
+//        case "off":
+//            flashMode.off
+//        case "auto":
+//            flashMode.auto
+//        default:
+//            flashMode.off
+//        }
+    }
+    
     @objc func capturePhoto() {
         let settings = AVCapturePhotoSettings()
         let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
@@ -186,6 +192,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                              kCVPixelBufferWidthKey as String: 160,
                              kCVPixelBufferHeightKey as String: 160]
         settings.previewPhotoFormat = previewFormat
+        //settings.flashMode = flashMode.on
+       // print(typeof settings.flashMode)
         self.cameraOutput.capturePhoto(with: settings, delegate: self)
         
         UIView.animate(withDuration: 0.1, delay: 0, options: [], animations: { () -> Void in
@@ -277,19 +285,19 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func deviceOrientationChanged(orientation:UIInterfaceOrientation) {
-        print("orientation:",orientation.rawValue)
-        print(orientation)
+        //print("orientation:",orientation.rawValue)
+//        print(orientation)
         if orientation.rawValue == 1 { //portrait
             //imageView.transform = CGAffineTransform(rotationAngle: 0)
-            buttonCameraShot.transform = CGAffineTransform(rotationAngle: 0)
+            //buttonCameraShot.transform = CGAffineTransform(rotationAngle: 0)
         }
         if orientation.rawValue == 3 { //landscapeLeft
             //imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
-            buttonCameraShot.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            //buttonCameraShot.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
         }
         if orientation.rawValue == 4 { //landscapeRight
             //imageView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
-            buttonCameraShot.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+            //buttonCameraShot.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         }
     }
 }
