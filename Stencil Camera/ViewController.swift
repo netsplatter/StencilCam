@@ -25,15 +25,17 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     var currentImage: UIImage!
     var slider: UISlider!
     var motionManager: CMMotionManager!
-    enum flashMode {
-        case off
-        case on
-        case auto
-    }
+    var flashMode: AVCaptureDevice.FlashMode! = .off
+//    var flashMode {
+//        case off
+//        case on
+//        case auto
+//    }
+    //var flashMode = AVCaptureDevice.FlashMode.self
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+            
         captureDevice = getDevice(position: .back)
         
         // transparent navigation bar
@@ -171,20 +173,18 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func setFlashMode (action: UIAlertAction) {
-        //let settings = AVCapturePhotoSettings()
-        
-//        switch action.title {
-//        case "on" :
-//            flashMode = 0
-//        case "off":
-//            flashMode.off
-//        case "auto":
-//            flashMode.auto
-//        default:
-//            flashMode.off
-//        }
+        switch action.title {
+        case "on" :
+            flashMode = .on
+        case "off":
+            flashMode = .off
+        case "auto":
+            flashMode = .auto
+        default:
+            flashMode = .off
+        }
     }
-    
+        
     @objc func capturePhoto() {
         let settings = AVCapturePhotoSettings()
         let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
@@ -192,7 +192,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                              kCVPixelBufferWidthKey as String: 160,
                              kCVPixelBufferHeightKey as String: 160]
         settings.previewPhotoFormat = previewFormat
-        //settings.flashMode = flashMode.on
+        settings.flashMode = flashMode
        // print(typeof settings.flashMode)
         self.cameraOutput.capturePhoto(with: settings, delegate: self)
         
