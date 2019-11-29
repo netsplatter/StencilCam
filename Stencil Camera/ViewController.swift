@@ -26,12 +26,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     var slider: UISlider!
     var motionManager: CMMotionManager!
     var flashMode: AVCaptureDevice.FlashMode! = .off
-//    var flashMode {
-//        case off
-//        case on
-//        case auto
-//    }
-    //var flashMode = AVCaptureDevice.FlashMode.self
+    let buttonFlashSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,9 +52,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
   
         //buttons
         let buttonCameraSwitch = UIBarButtonItem(title: "switch camera", style: .plain, target: self, action: #selector(switchCamera))
-        let buttonFlashSwitch = UIBarButtonItem(title: "flash", style: .plain, target: self, action: #selector(switchFlash))
+
+        buttonFlashSwitch.contentHorizontalAlignment = .left
+        buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
+        buttonFlashSwitch.addTarget(self, action: #selector(switchFlash), for: UIControl.Event.touchUpInside)
+        let barFlashBtn = UIBarButtonItem(customView: buttonFlashSwitch)
+        
         let buttonImportPicture = UIBarButtonItem(title: "Add Stencil", style: .plain, target: self, action: #selector(importPicture))
-        navigationItem.leftBarButtonItems = [buttonCameraSwitch, buttonFlashSwitch]
+        navigationItem.leftBarButtonItems = [buttonCameraSwitch, barFlashBtn]
         navigationItem.rightBarButtonItem = buttonImportPicture
         
         let buttonCameraShot = UIButton(type: .system)
@@ -158,33 +158,27 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         
         beginNewSession()
     }
-    
+        
     @objc func switchFlash() {
-//        let settings = AVCapturePhotoSettings()
-//           print(settings.flashMode.rawValue)
-//        settings.flashMode = .on
-       
-        
-        let ac = UIAlertController(title: "Flash Mode", message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "on", style: .default, handler: setFlashMode))
-        ac.addAction(UIAlertAction(title: "off", style: .default, handler: setFlashMode))
-        ac.addAction(UIAlertAction(title: "auto", style: .default, handler: setFlashMode))
-        present(ac, animated: true)
-    }
-    
-    func setFlashMode (action: UIAlertAction) {
-        switch action.title {
-        case "on" :
-            flashMode = .on
-        case "off":
-            flashMode = .off
-        case "auto":
-            flashMode = .auto
-        default:
-            flashMode = .off
-        }
-    }
-        
+       switch flashMode {
+       case .on:
+           flashMode = .off
+           buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
+           print("flash off")
+       case .off:
+           flashMode = .auto
+           buttonFlashSwitch.setImage(UIImage(named: "flash-auto"), for: UIControl.State.normal)
+           print("flash auto")
+       case .auto:
+           flashMode = .on
+           buttonFlashSwitch.setImage(UIImage(named: "flash-on"), for: UIControl.State.normal)
+           print("flash on")
+       default:
+           flashMode = .off
+           buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
+       }
+   }
+
     @objc func capturePhoto() {
         let settings = AVCapturePhotoSettings()
         let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
