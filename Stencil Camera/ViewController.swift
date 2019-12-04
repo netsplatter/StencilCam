@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import CoreMotion
+import Photos
 
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     var captureSession = AVCaptureSession()
@@ -27,6 +28,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     var motionManager: CMMotionManager!
     var flashMode: AVCaptureDevice.FlashMode! = .off
     let buttonFlashSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
+    let buttonCameraSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,15 +53,25 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         view.addSubview(slider)
   
         //buttons
-        let buttonCameraSwitch = UIBarButtonItem(title: "switch camera", style: .plain, target: self, action: #selector(switchCamera))
+        //let buttonCameraSwitch = UIBarButtonItem(title: "switch camera", style: .plain, target: self, action: #selector(switchCamera))
+        
+        //buttonCameraSwitch.contentHorizontalAlignment = .left
+        buttonCameraSwitch.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
+        buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: UIControl.Event.touchUpInside)
+        let barCameraBtn = UIBarButtonItem(customView: buttonCameraSwitch)
 
-        buttonFlashSwitch.contentHorizontalAlignment = .left
+        //buttonFlashSwitch.contentHorizontalAlignment = .right
         buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
         buttonFlashSwitch.addTarget(self, action: #selector(switchFlash), for: UIControl.Event.touchUpInside)
+        buttonFlashSwitch.contentEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         let barFlashBtn = UIBarButtonItem(customView: buttonFlashSwitch)
+        //barFlashBtn.contentHorizontalAlignment = .center
+        
+       // let spacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+      //  spacer.width = 0
         
         let buttonImportPicture = UIBarButtonItem(title: "Add Stencil", style: .plain, target: self, action: #selector(importPicture))
-        navigationItem.leftBarButtonItems = [buttonCameraSwitch, barFlashBtn]
+        navigationItem.leftBarButtonItems = [barCameraBtn, barFlashBtn]
         navigationItem.rightBarButtonItem = buttonImportPicture
         
         let buttonCameraShot = UIButton(type: .system)
