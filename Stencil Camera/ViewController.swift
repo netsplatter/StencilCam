@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import CoreMotion
+//import AssetsLibrary
 import Photos
 
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -29,6 +30,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     var flashMode: AVCaptureDevice.FlashMode! = .off
     let buttonFlashSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
     let buttonCameraSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
+    let buttonImportPicture: UIButton = UIButton(type: UIButton.ButtonType.custom)
+    
+    var testImage: UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,26 +57,28 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         view.addSubview(slider)
   
         //buttons
-        //let buttonCameraSwitch = UIBarButtonItem(title: "switch camera", style: .plain, target: self, action: #selector(switchCamera))
-        
-        //buttonCameraSwitch.contentHorizontalAlignment = .left
         buttonCameraSwitch.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
         buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: UIControl.Event.touchUpInside)
         let barCameraBtn = UIBarButtonItem(customView: buttonCameraSwitch)
 
-        //buttonFlashSwitch.contentHorizontalAlignment = .right
         buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
         buttonFlashSwitch.addTarget(self, action: #selector(switchFlash), for: UIControl.Event.touchUpInside)
         buttonFlashSwitch.contentEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         let barFlashBtn = UIBarButtonItem(customView: buttonFlashSwitch)
-        //barFlashBtn.contentHorizontalAlignment = .center
         
-       // let spacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-      //  spacer.width = 0
+        buttonImportPicture.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
+        buttonImportPicture.addTarget(self, action: #selector(importPicture), for: UIControl.Event.touchUpInside)
+        buttonImportPicture.frame = CGRect(x: 10, y: view.frame.size.height - 55, width: 45, height: 45)
+        buttonImportPicture.imageView?.layer.cornerRadius = 5
+        view.addSubview(buttonImportPicture)
+        //buttonImportPicture.imageView?.contentMode = .redraw
+    
+        //buttonImportPicture.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+       
+        // let spacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        //  spacer.width = 0
         
-        let buttonImportPicture = UIBarButtonItem(title: "Add Stencil", style: .plain, target: self, action: #selector(importPicture))
         navigationItem.leftBarButtonItems = [barCameraBtn, barFlashBtn]
-        navigationItem.rightBarButtonItem = buttonImportPicture
         
         let buttonCameraShot = UIButton(type: .system)
         buttonCameraShot.translatesAutoresizingMaskIntoConstraints = false
@@ -93,11 +99,37 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             buttonCameraShot.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
             buttonCameraShot.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
             buttonCameraShot.heightAnchor.constraint(equalToConstant: 100),
-            buttonCameraShot.widthAnchor.constraint(equalToConstant: 100)
+            buttonCameraShot.widthAnchor.constraint(equalToConstant: 100),
+            
+//            buttonImportPicture.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: 20),
+//            buttonImportPicture.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
+//            buttonImportPicture.heightAnchor.constraint(equalToConstant: 45),
+//            buttonImportPicture.widthAnchor.constraint(equalToConstant: 45)
         ])
+        
+        //var image: UIImageAsset!
+       // getAssetThumbnail(asset: image)
+        
+//        let mostRecentMedia = PHFetchOptions()
+//               mostRecentMedia.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+//               let allPhotos: PHFetchResult = PHAsset.fetchAssets(with: mostRecentMedia)
+        
+        //getAssetThumbnail(allPhotos: allPhotos)
         
         beginNewSession()
         addCoreMotion() // device orientation
+    }
+    
+    func setLibraryPic() {
+        let manager = PHImageManager.default()
+        let imageAsset = PHAsset.fetchAssets(with: .image, options: nil)
+        var lastImg: UIImage?
+      
+        manager.requestImage(for: imageAsset[imageAsset.count - 1], targetSize: CGSize(width: 20, height: 20), contentMode: .aspectFill, options: nil) { image, info in
+            lastImg = image
+        }
+        
+        buttonImportPicture.setImage(lastImg, for: UIControl.State.normal)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -131,6 +163,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 previewLayer.frame = self.view.layer.frame
                 previewLayer.zPosition = -1
                 captureSession.startRunning()
+                
+                setLibraryPic()
             }
         } else {
             print("captureDevice error!")
@@ -206,6 +240,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             self.flashEffectView.alpha = 1
         }, completion: {(finished: Bool) in
             self.flashEffectView.alpha = 0
+        })
+       
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
+            self.setLibraryPic()
         })
     }
     
@@ -289,6 +327,82 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             }
         })
     }
+    
+    
+    
+    
+    
+//    func getAssetThumbnail( ) {
+//
+//
+//
+//        let asset = allPhotos.object(at: 0)
+//        let size = CGSize(width: 80, height: 80)
+//
+//        PHCachingImageManager().requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+//            // Ensure we're dealing with the same cell when the asset returns
+//            // In case its since been recycled
+//            print(image)
+////            if cell.localAssetID == asset.localIdentifier
+////            {
+////                cell.theImageViewImage = image
+////            }
+//        })
+//
+//
+//        //print(image)
+//        //return image
+//      //  let image = asset.image
+//
+//
+//    }
+    
+    
+    
+    
+    
+        
+//    func getLatestPhotos(completion completionBlock : (([UIImage]) -> ()))   {
+//        let library = ALAssetsLibrary()
+//        var count = 0
+//        var images : [UIImage] = []
+//        var stopped = false
+//
+//        library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: { (group, stop) -> Void in
+//
+//            group?.setAssetsFilter(ALAssetsFilter.allPhotos())
+//
+//            group?.enumerateAssets(options: NSEnumerationOptions.reverse, using: {
+//                (asset : ALAsset!, index, stopEnumeration) -> Void in
+//
+//                if (!stopped)
+//                {
+//                    if count >= 3
+//                    {
+//
+//                        stopEnumeration.memory = ObjCBool(true)
+//                        stop.memory = ObjCBool(true)
+//                        completionBlock(images)
+//                        stopped = true
+//                    }
+//                    else
+//                    {
+//                        // For just the thumbnails use the following line.
+//                        let cgImage = asset.thumbnail().takeUnretainedValue()
+//
+//                        if let image = UIImage(cgImage: cgImage) {
+//                            images.append(image)
+//                            count += 1
+//                        }
+//                    }
+//                }
+//
+//            })
+//
+//            },failureBlock : { error in
+//                print(error)
+//        })
+//    }
     
     func deviceOrientationChanged(orientation:UIInterfaceOrientation) {
         //print("orientation:",orientation.rawValue)
