@@ -22,6 +22,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         case back
     }
     var currentDirection: CameraDirection = .back
+    var deviceOrientation: UIImage.Orientation!
     var flashEffectView = UIView()
     var imageView: UIImageView!
     var currentImage: UIImage!
@@ -31,13 +32,13 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     let buttonFlashSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
     let buttonCameraSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
     let buttonImportPicture: UIButton = UIButton(type: UIButton.ButtonType.custom)
-    
-    var testImage: UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
             
+        
         captureDevice = getDevice(position: .back)
+        deviceOrientation = .right
         
         // transparent navigation bar
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -144,6 +145,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         let manager = PHImageManager.default()
         let imageAsset = PHAsset.fetchAssets(with: .image, options: nil)
         var lastImg: UIImage?
+        //print(imageAsset)
       
         manager.requestImage(for: imageAsset[imageAsset.count - 1], targetSize: CGSize(width: 20, height: 20), contentMode: .aspectFill, options: nil) { image, info in
             lastImg = image
@@ -265,7 +267,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             self.flashEffectView.alpha = 0
         })
        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.65, execute: {
             self.setLibraryPic()
         })
     }
@@ -277,8 +279,18 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         }
         
         guard let imageData = photo.fileDataRepresentation() else { return }
-        guard let image = UIImage(data: imageData)?.withRenderingMode(.alwaysOriginal) else { return }
-        UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
+        guard var image = UIImage(data: imageData)?.withRenderingMode(.alwaysOriginal) else { return }
+        
+        //print(image)
+        
+        //image = fixOrientation(img: image)
+        
+        //var newImage = image.fixOrientation()
+        var imageWithRightOrientation: UIImage = UIImage(cgImage: image.cgImage!, scale: 1, orientation: deviceOrientation)
+        
+        //print(newImage)
+        
+        UIImageWriteToSavedPhotosAlbum(imageWithRightOrientation, self, nil, nil)
         
         print("image captured.")
     }
@@ -296,30 +308,16 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         imageView.alpha = 0
         dismiss(animated: true, completion: pictureFadeInAnimation)
         imageView.image = image
+        imageView.backgroundColor = .black
         
-        print("1 \(imageView.frame.size)")
-        print("2 \(image.size)")
+        //print("1 \(imageView.frame.size)")
+        //print("2 \(imageView)")
         
         if !slider.isEnabled {
             slider.isEnabled = true
         }
     }
-    
-    func fixOrientation(img: UIImage) -> UIImage {
-        if (img.imageOrientation == .up) {
-            return img
-        }
-
-        UIGraphicsBeginImageContextWithOptions(img.size, false, img.scale)
-        let rect = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
-        img.draw(in: rect)
-
-        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-
-        return normalizedImage
-    }
-    
+        
     func pictureFadeInAnimation() {
         UIView.animate(withDuration: 1, animations: {
             self.imageView.alpha = CGFloat(self.slider.value / 100)
@@ -453,15 +451,27 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         //print("orientation:",orientation.rawValue)
 //        print(orientation)
         if orientation.rawValue == 1 { //portrait
+            deviceOrientation = .right
+         //   print(deviceOrientation)
             //imageView.
             //imageView.transform = CGAffineTransform(rotationAngle: 0)
             //buttonCameraShot.transform = CGAffineTransform(rotationAngle: 0)
         }
+        if orientation.rawValue == 2 { //upside down
+           deviceOrientation = .left
+           //print(deviceOrientation)
+           //imageView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+           //buttonCameraShot.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+       }
         if orientation.rawValue == 3 { //landscapeLeft
+            deviceOrientation = .up
+          //           print(deviceOrientation)
             //imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
             //buttonCameraShot.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
         }
         if orientation.rawValue == 4 { //landscapeRight
+            deviceOrientation = .down
+            //print(deviceOrientation)
             //imageView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
             //buttonCameraShot.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         }
