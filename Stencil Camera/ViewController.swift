@@ -46,9 +46,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         self.navigationController?.view.backgroundColor = UIColor.clear
 
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.frame.size.width, height: view.frame.size.height)))
+        imageView.contentMode = UIView.ContentMode.scaleAspectFit
         view.addSubview(imageView)
                 
         slider = UISlider(frame: CGRect(origin: CGPoint(x: view.frame.size.width - 120, y: 50), size: CGSize(width: 200, height: 400)))
+        slider.minimumTrackTintColor = .white
+        slider.maximumTrackTintColor = .black
         slider.transform = CGAffineTransform(rotationAngle: .pi / 2)
         slider.maximumValue = 100
         slider.minimumValue = 0
@@ -250,7 +253,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                              kCVPixelBufferHeightKey as String: 160]
         settings.previewPhotoFormat = previewFormat
         settings.flashMode = flashMode
-       // print(typeof settings.flashMode)
+        settings.isAutoStillImageStabilizationEnabled = true
+        settings.isHighResolutionPhotoEnabled = true
+
+        self.cameraOutput.isHighResolutionCaptureEnabled = true
         self.cameraOutput.capturePhoto(with: settings, delegate: self)
         
         UIView.animate(withDuration: 0.1, delay: 0, options: [], animations: { () -> Void in
@@ -291,9 +297,27 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         dismiss(animated: true, completion: pictureFadeInAnimation)
         imageView.image = image
         
+        print("1 \(imageView.frame.size)")
+        print("2 \(image.size)")
+        
         if !slider.isEnabled {
             slider.isEnabled = true
         }
+    }
+    
+    func fixOrientation(img: UIImage) -> UIImage {
+        if (img.imageOrientation == .up) {
+            return img
+        }
+
+        UIGraphicsBeginImageContextWithOptions(img.size, false, img.scale)
+        let rect = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
+        img.draw(in: rect)
+
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        return normalizedImage
     }
     
     func pictureFadeInAnimation() {
@@ -429,6 +453,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         //print("orientation:",orientation.rawValue)
 //        print(orientation)
         if orientation.rawValue == 1 { //portrait
+            //imageView.
             //imageView.transform = CGAffineTransform(rotationAngle: 0)
             //buttonCameraShot.transform = CGAffineTransform(rotationAngle: 0)
         }
