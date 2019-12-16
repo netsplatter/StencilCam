@@ -54,19 +54,30 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         slider.minimumValue = 0
         slider.value = 50
         slider.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
+        slider.isEnabled = false
         view.addSubview(slider)
   
         //buttons
         buttonCameraSwitch.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
         buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: UIControl.Event.touchUpInside)
+        
         let barCameraBtn = UIBarButtonItem(customView: buttonCameraSwitch)
+        let barCameraBtnWidth = barCameraBtn.customView?.widthAnchor.constraint(equalToConstant: 34)
+        barCameraBtnWidth?.isActive = true
+        let barCameraBtnHeight = barCameraBtn.customView?.heightAnchor.constraint(equalToConstant: 24)
+        barCameraBtnHeight?.isActive = true
 
         buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
         buttonFlashSwitch.addTarget(self, action: #selector(switchFlash), for: UIControl.Event.touchUpInside)
         buttonFlashSwitch.contentEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
-        let barFlashBtn = UIBarButtonItem(customView: buttonFlashSwitch)
         
-        buttonImportPicture.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
+        let barFlashBtn = UIBarButtonItem(customView: buttonFlashSwitch)
+        let barFlashBtnWidth = barFlashBtn.customView?.widthAnchor.constraint(equalToConstant: 36)
+        barFlashBtnWidth?.isActive = true
+        let barFlashBtnHeight = barFlashBtn.customView?.heightAnchor.constraint(equalToConstant: 28)
+        barFlashBtnHeight?.isActive = true
+        
+        buttonImportPicture.setImage(UIImage(named: "folder"), for: UIControl.State.normal)
         buttonImportPicture.addTarget(self, action: #selector(importPicture), for: UIControl.Event.touchUpInside)
         buttonImportPicture.frame = CGRect(x: 10, y: view.frame.size.height - 55, width: 45, height: 45)
         buttonImportPicture.imageView?.layer.cornerRadius = 5
@@ -80,14 +91,20 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         
         navigationItem.leftBarButtonItems = [barCameraBtn, barFlashBtn]
         
-        let buttonCameraShot = UIButton(type: .system)
+        let buttonCameraShot = UIButton(type: .custom)
+        buttonCameraShot.setImage(UIImage(named: "shot"), for: UIControl.State.normal)
+        buttonCameraShot.setImage(UIImage(named: "shot-hover"), for: UIControl.State.highlighted)
+        buttonCameraShot.frame.size.width = 74
+        buttonCameraShot.frame.size.height = 74
+        buttonCameraShot.contentHorizontalAlignment = .fill
+        buttonCameraShot.contentVerticalAlignment = .fill
+        buttonCameraShot.imageView?.contentMode = .scaleAspectFit
         buttonCameraShot.translatesAutoresizingMaskIntoConstraints = false
-        buttonCameraShot.setTitle("shot", for: .normal)
         buttonCameraShot.addTarget(self, action: #selector(capturePhoto), for: .touchUpInside)
-        buttonCameraShot.layer.borderWidth = 1
-        buttonCameraShot.layer.borderColor = UIColor.lightGray.cgColor
+        //buttonCameraShot.layer.borderWidth = 1
+        //buttonCameraShot.layer.borderColor = UIColor.lightGray.cgColor
         buttonCameraShot.layer.zPosition = 1
-        buttonCameraShot.layer.cornerRadius = 50
+        //buttonCameraShot.layer.cornerRadius = 50
         view.addSubview(buttonCameraShot)
         
         flashEffectView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.frame.size.width, height: view.frame.size.height)))
@@ -98,8 +115,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         NSLayoutConstraint.activate([
             buttonCameraShot.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
             buttonCameraShot.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            buttonCameraShot.heightAnchor.constraint(equalToConstant: 100),
-            buttonCameraShot.widthAnchor.constraint(equalToConstant: 100),
+            //buttonCameraShot.heightAnchor.constraint(equalToConstant: 100),
+            //buttonCameraShot.widthAnchor.constraint(equalToConstant: 100),
             
 //            buttonImportPicture.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: 20),
 //            buttonImportPicture.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
@@ -273,6 +290,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         imageView.alpha = 0
         dismiss(animated: true, completion: pictureFadeInAnimation)
         imageView.image = image
+        
+        if !slider.isEnabled {
+            slider.isEnabled = true
+        }
     }
     
     func pictureFadeInAnimation() {
