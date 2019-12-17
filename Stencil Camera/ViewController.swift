@@ -15,7 +15,6 @@ import Photos
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     var captureSession = AVCaptureSession()
     let cameraOutput = AVCapturePhotoOutput()
-    var captureImageView: UIImageView!
     var captureDevice: AVCaptureDevice?
     enum CameraDirection {
         case front
@@ -41,16 +40,16 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         deviceOrientation = .right
         
         // transparent navigation bar
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = UIColor.clear
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.view.backgroundColor = UIColor.clear
 
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.frame.size.width, height: view.frame.size.height)))
         imageView.contentMode = UIView.ContentMode.scaleAspectFit
         view.addSubview(imageView)
                 
-        slider = UISlider(frame: CGRect(origin: CGPoint(x: view.frame.size.width - 120, y: 50), size: CGSize(width: 200, height: 400)))
+        slider = UISlider(frame: CGRect(origin: CGPoint(x: view.frame.size.width - 120, y: (UIScreen.main.bounds.size.height * 0.5) - 200), size: CGSize(width: 200, height: 400)))
         slider.minimumTrackTintColor = .white
         slider.maximumTrackTintColor = .black
         slider.transform = CGAffineTransform(rotationAngle: .pi / 2)
@@ -62,30 +61,21 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         view.addSubview(slider)
   
         //buttons
-        buttonCameraSwitch.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
-        buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: UIControl.Event.touchUpInside)
-        
-        let barCameraBtn = UIBarButtonItem(customView: buttonCameraSwitch)
-        let barCameraBtnWidth = barCameraBtn.customView?.widthAnchor.constraint(equalToConstant: 34)
-        barCameraBtnWidth?.isActive = true
-        let barCameraBtnHeight = barCameraBtn.customView?.heightAnchor.constraint(equalToConstant: 24)
-        barCameraBtnHeight?.isActive = true
-
         buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
         buttonFlashSwitch.addTarget(self, action: #selector(switchFlash), for: UIControl.Event.touchUpInside)
-        buttonFlashSwitch.contentEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
-        
-        let barFlashBtn = UIBarButtonItem(customView: buttonFlashSwitch)
-        let barFlashBtnWidth = barFlashBtn.customView?.widthAnchor.constraint(equalToConstant: 36)
-        barFlashBtnWidth?.isActive = true
-        let barFlashBtnHeight = barFlashBtn.customView?.heightAnchor.constraint(equalToConstant: 28)
-        barFlashBtnHeight?.isActive = true
+        buttonFlashSwitch.frame = CGRect(x: 10, y: 30, width: 20, height: 30)
+        view.addSubview(buttonFlashSwitch)
         
         buttonImportPicture.setImage(UIImage(named: "folder"), for: UIControl.State.normal)
         buttonImportPicture.addTarget(self, action: #selector(importPicture), for: UIControl.Event.touchUpInside)
-        buttonImportPicture.frame = CGRect(x: 10, y: view.frame.size.height - 55, width: 45, height: 45)
+        buttonImportPicture.frame = CGRect(x: 10, y: view.frame.size.height - 60, width: 50, height: 50)
         buttonImportPicture.imageView?.layer.cornerRadius = 5
         view.addSubview(buttonImportPicture)
+        
+        buttonCameraSwitch.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
+        buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: UIControl.Event.touchUpInside)
+        buttonCameraSwitch.frame = CGRect(x: view.frame.size.width - 40, y: view.frame.size.height - 40, width: 30, height: 22)
+        view.addSubview(buttonCameraSwitch)
         //buttonImportPicture.imageView?.contentMode = .redraw
     
         //buttonImportPicture.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -93,7 +83,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         // let spacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         //  spacer.width = 0
         
-        navigationItem.leftBarButtonItems = [barCameraBtn, barFlashBtn]
+      
         
         let buttonCameraShot = UIButton(type: .custom)
         buttonCameraShot.setImage(UIImage(named: "shot"), for: UIControl.State.normal)
@@ -119,6 +109,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         NSLayoutConstraint.activate([
             buttonCameraShot.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
             buttonCameraShot.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+//            buttonFlashSwitch.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20),
+//            buttonFlashSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80)
             //buttonCameraShot.heightAnchor.constraint(equalToConstant: 100),
             //buttonCameraShot.widthAnchor.constraint(equalToConstant: 100),
             
@@ -168,7 +160,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                     device.focusPointOfInterest = focusPoint
                     device.focusMode = .continuousAutoFocus
                     device.exposurePointOfInterest = focusPoint
-                    device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
+                    device.exposureMode = .continuousAutoExposure
                     device.unlockForConfiguration()
                 }
             }
@@ -228,6 +220,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
         
     @objc func switchFlash() {
+        print(11)
        switch flashMode {
        case .on:
            flashMode = .off
@@ -257,6 +250,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         settings.flashMode = flashMode
         settings.isAutoStillImageStabilizationEnabled = true
         settings.isHighResolutionPhotoEnabled = true
+        //AVCaptureDevice.ExposureMode.continuousAutoExposure
+       // print(AVCaptureDevice.ExposureMode = .continuousAutoExposure)
 
         self.cameraOutput.isHighResolutionCaptureEnabled = true
         self.cameraOutput.capturePhoto(with: settings, delegate: self)
