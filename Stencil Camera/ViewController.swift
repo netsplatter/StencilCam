@@ -307,9 +307,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         guard let image = info[.originalImage] as? UIImage else { return }
         imageView.alpha = 0
         dismiss(animated: true, completion: pictureFadeInAnimation)
-        imageView.image = image
+        let ImageWithNativeOrientation = importedImageNativeOrientation(img: image)
+        imageView.image = ImageWithNativeOrientation
         imageView.backgroundColor = .black
-        
+        print(imageView.image!.imageOrientation.rawValue)
+        print(imageView.image!.imageOrientation.hash)
         //print("1 \(imageView.frame.size)")
         //print("2 \(imageView)")
         
@@ -371,14 +373,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         })
     }
     
-    
-    
-    
-    
 //    func getAssetThumbnail( ) {
-//
-//
-//
+
 //        let asset = allPhotos.object(at: 0)
 //        let size = CGSize(width: 80, height: 80)
 //
@@ -399,11 +395,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
 //
 //
 //    }
-    
-    
-    
-    
-    
         
 //    func getLatestPhotos(completion completionBlock : (([UIImage]) -> ()))   {
 //        let library = ALAssetsLibrary()
@@ -476,4 +467,28 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             //buttonCameraShot.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         }
     }
+    
+    func importedImageNativeOrientation(img: UIImage) -> UIImage {
+        //0 left 1 right 2 upside 3 up
+        var image: UIImage
+        
+        if img.imageOrientation.rawValue == 0 { //landscapeLeft
+            image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
+          //        print(0)
+            return image
+        }
+        if img.imageOrientation.rawValue == 1 { //landscapeRight
+            image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
+         //         print(1)
+            return image
+        }
+        if img.imageOrientation.rawValue == 2 { //down
+            image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .left)
+            //print(2)
+            return image
+        }
+        
+        return img
+    }
+   
 }
