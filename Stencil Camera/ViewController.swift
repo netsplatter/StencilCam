@@ -35,15 +35,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     override func viewDidLoad() {
         super.viewDidLoad()
             
-        
         captureDevice = getDevice(position: .back)
         deviceOrientation = .right
-        
-        // transparent navigation bar
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.view.backgroundColor = UIColor.clear
 
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.frame.size.width, height: view.frame.size.height)))
         imageView.contentMode = UIView.ContentMode.scaleAspectFit
@@ -77,15 +70,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: UIControl.Event.touchUpInside)
         buttonCameraSwitch.frame = CGRect(x: view.frame.size.width - 40, y: view.frame.size.height - 40, width: 30, height: 22)
         view.addSubview(buttonCameraSwitch)
-        //buttonImportPicture.imageView?.contentMode = .redraw
-    
-        //buttonImportPicture.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-       
-        // let spacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        //  spacer.width = 0
-        
-      
-        
+
         let buttonCameraShot = UIButton(type: .custom)
         buttonCameraShot.setImage(UIImage(named: "shot"), for: UIControl.State.normal)
         buttonCameraShot.setImage(UIImage(named: "shot-hover"), for: UIControl.State.highlighted)
@@ -96,10 +81,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         buttonCameraShot.imageView?.contentMode = .scaleAspectFit
         buttonCameraShot.translatesAutoresizingMaskIntoConstraints = false
         buttonCameraShot.addTarget(self, action: #selector(capturePhoto), for: .touchUpInside)
-        //buttonCameraShot.layer.borderWidth = 1
-        //buttonCameraShot.layer.borderColor = UIColor.lightGray.cgColor
         buttonCameraShot.layer.zPosition = 1
-        //buttonCameraShot.layer.cornerRadius = 50
         view.addSubview(buttonCameraShot)
         
         flashEffectView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.frame.size.width, height: view.frame.size.height)))
@@ -112,15 +94,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             buttonCameraShot.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
         ])
         
-        //var image: UIImageAsset!
-       // getAssetThumbnail(asset: image)
-        
-//        let mostRecentMedia = PHFetchOptions()
-//               mostRecentMedia.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-//               let allPhotos: PHFetchResult = PHAsset.fetchAssets(with: mostRecentMedia)
-        
-        //getAssetThumbnail(allPhotos: allPhotos)
-        
         beginNewSession()
         addCoreMotion() // device orientation
     }
@@ -129,7 +102,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         let manager = PHImageManager.default()
         let imageAsset = PHAsset.fetchAssets(with: .image, options: nil)
         var lastImg: UIImage?
-        //print(imageAsset)
       
         manager.requestImage(for: imageAsset[imageAsset.count - 1], targetSize: CGSize(width: 20, height: 20), contentMode: .aspectFill, options: nil) { image, info in
             lastImg = image
@@ -242,8 +214,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         settings.flashMode = flashMode
         settings.isAutoStillImageStabilizationEnabled = true
         settings.isHighResolutionPhotoEnabled = true
-        //AVCaptureDevice.ExposureMode.continuousAutoExposure
-       // print(AVCaptureDevice.ExposureMode = .continuousAutoExposure)
 
         self.cameraOutput.isHighResolutionCaptureEnabled = true
         self.cameraOutput.capturePhoto(with: settings, delegate: self)
@@ -268,15 +238,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         guard let imageData = photo.fileDataRepresentation() else { return }
         guard var image = UIImage(data: imageData)?.withRenderingMode(.alwaysOriginal) else { return }
         
-        //print(image)
-        
-        //image = fixOrientation(img: image)
-        
-        //var newImage = image.fixOrientation()
         var imageWithRightOrientation: UIImage = UIImage(cgImage: image.cgImage!, scale: 1, orientation: deviceOrientation)
-        
-        //print(newImage)
-        
+                
         UIImageWriteToSavedPhotosAlbum(imageWithRightOrientation, self, nil, nil)
         
         print("image captured.")
@@ -299,8 +262,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         imageView.backgroundColor = .black
         print(imageView.image!.imageOrientation.rawValue)
         print(imageView.image!.imageOrientation.hash)
-        //print("1 \(imageView.frame.size)")
-        //print("2 \(imageView)")
         
         if !slider.isEnabled {
             slider.isEnabled = true
@@ -336,15 +297,15 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 if acceleration.x >= splitAngle {
                     orientationNew = .landscapeLeft
                 }
-                    
+
                 else if acceleration.x <= -(splitAngle) {
                     orientationNew = .landscapeRight
                 }
-                    
+
                 else if acceleration.y <= -(splitAngle) {
                     orientationNew = .portrait
                 }
-                    
+
                 else if acceleration.y >= splitAngle {
                     orientationNew = .portraitUpsideDown
                 }
@@ -360,77 +321,11 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         })
     }
     
-//    func getAssetThumbnail( ) {
-
-//        let asset = allPhotos.object(at: 0)
-//        let size = CGSize(width: 80, height: 80)
-//
-//        PHCachingImageManager().requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-//            // Ensure we're dealing with the same cell when the asset returns
-//            // In case its since been recycled
-//            print(image)
-////            if cell.localAssetID == asset.localIdentifier
-////            {
-////                cell.theImageViewImage = image
-////            }
-//        })
-//
-//
-//        //print(image)
-//        //return image
-//      //  let image = asset.image
-//
-//
-//    }
-        
-//    func getLatestPhotos(completion completionBlock : (([UIImage]) -> ()))   {
-//        let library = ALAssetsLibrary()
-//        var count = 0
-//        var images : [UIImage] = []
-//        var stopped = false
-//
-//        library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: { (group, stop) -> Void in
-//
-//            group?.setAssetsFilter(ALAssetsFilter.allPhotos())
-//
-//            group?.enumerateAssets(options: NSEnumerationOptions.reverse, using: {
-//                (asset : ALAsset!, index, stopEnumeration) -> Void in
-//
-//                if (!stopped)
-//                {
-//                    if count >= 3
-//                    {
-//
-//                        stopEnumeration.memory = ObjCBool(true)
-//                        stop.memory = ObjCBool(true)
-//                        completionBlock(images)
-//                        stopped = true
-//                    }
-//                    else
-//                    {
-//                        // For just the thumbnails use the following line.
-//                        let cgImage = asset.thumbnail().takeUnretainedValue()
-//
-//                        if let image = UIImage(cgImage: cgImage) {
-//                            images.append(image)
-//                            count += 1
-//                        }
-//                    }
-//                }
-//
-//            })
-//
-//            },failureBlock : { error in
-//                print(error)
-//        })
-//    }
     func deg2rad(_ number: CGFloat) -> CGFloat {
         return number * .pi / 180
     }
     
-    func deviceOrientationChanged(orientation:UIInterfaceOrientation) {
-        //print("orientation:",orientation.rawValue)
-//        print(orientation)
+    func deviceOrientationChanged(orientation: UIInterfaceOrientation) {
         if orientation.rawValue == 1 { //portrait
             deviceOrientation = .right
             
@@ -508,17 +403,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         
         if img.imageOrientation.rawValue == 0 { //landscapeLeft
             image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
-          //        print(0)
             return image
         }
         if img.imageOrientation.rawValue == 1 { //landscapeRight
             image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
-         //         print(1)
             return image
         }
         if img.imageOrientation.rawValue == 2 { //down
             image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .left)
-            //print(2)
             return image
         }
         
