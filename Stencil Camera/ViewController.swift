@@ -49,10 +49,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         imageView.contentMode = UIView.ContentMode.scaleAspectFit
         view.addSubview(imageView)
                 
-        slider = UISlider(frame: CGRect(origin: CGPoint(x: view.frame.size.width - 120, y: (UIScreen.main.bounds.size.height * 0.5) - 200), size: CGSize(width: 200, height: 400)))
+        slider = UISlider(frame: CGRect(origin: CGPoint(x: view.frame.size.width - 125, y: (UIScreen.main.bounds.size.height * 0.5) - 200), size: CGSize(width: 200, height: 400)))
         slider.minimumTrackTintColor = .white
         slider.maximumTrackTintColor = .black
-        slider.transform = CGAffineTransform(rotationAngle: .pi / 2)
+        slider.transform = CGAffineTransform(rotationAngle: deg2rad(90))
         slider.maximumValue = 100
         slider.minimumValue = 0
         slider.value = 50
@@ -63,7 +63,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         //buttons
         buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
         buttonFlashSwitch.addTarget(self, action: #selector(switchFlash), for: UIControl.Event.touchUpInside)
-        buttonFlashSwitch.frame = CGRect(x: 10, y: 30, width: 20, height: 30)
+        buttonFlashSwitch.frame = CGRect(x: 10, y: 30, width: 30, height: 40)
+        buttonFlashSwitch.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         view.addSubview(buttonFlashSwitch)
         
         buttonImportPicture.setImage(UIImage(named: "folder"), for: UIControl.State.normal)
@@ -109,15 +110,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         NSLayoutConstraint.activate([
             buttonCameraShot.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
             buttonCameraShot.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-//            buttonFlashSwitch.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20),
-//            buttonFlashSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80)
-            //buttonCameraShot.heightAnchor.constraint(equalToConstant: 100),
-            //buttonCameraShot.widthAnchor.constraint(equalToConstant: 100),
-            
-//            buttonImportPicture.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: 20),
-//            buttonImportPicture.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
-//            buttonImportPicture.heightAnchor.constraint(equalToConstant: 45),
-//            buttonImportPicture.widthAnchor.constraint(equalToConstant: 45)
         ])
         
         //var image: UIImageAsset!
@@ -432,34 +424,81 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
 //                print(error)
 //        })
 //    }
+    func deg2rad(_ number: CGFloat) -> CGFloat {
+        return number * .pi / 180
+    }
     
     func deviceOrientationChanged(orientation:UIInterfaceOrientation) {
         //print("orientation:",orientation.rawValue)
 //        print(orientation)
         if orientation.rawValue == 1 { //portrait
             deviceOrientation = .right
-         //   print(deviceOrientation)
-            //imageView.
-            //imageView.transform = CGAffineTransform(rotationAngle: 0)
-            //buttonCameraShot.transform = CGAffineTransform(rotationAngle: 0)
+            
+            UIView.animate(withDuration: 0.25, animations: {
+                self.slider.frame.origin.x = self.view.frame.size.width - 225
+                self.slider.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
+                
+                self.buttonFlashSwitch.frame.origin.x = 10
+                self.buttonFlashSwitch.frame.origin.y = 30
+                self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
+                
+                self.buttonImportPicture.frame.origin.x = 10
+                self.buttonImportPicture.frame.origin.y = self.view.frame.size.height - 60
+                self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
+                
+                self.buttonCameraSwitch.frame.origin.x = self.view.frame.size.width - 40
+                self.buttonCameraSwitch.frame.origin.y = self.view.frame.size.height - 40
+                self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
+            })
         }
         if orientation.rawValue == 2 { //upside down
            deviceOrientation = .left
-           //print(deviceOrientation)
-           //imageView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
-           //buttonCameraShot.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+            
+            UIView.animate(withDuration: 0.25, animations: {
+                self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(180))
+                self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(180))
+                self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(180))
+            })
        }
         if orientation.rawValue == 3 { //landscapeLeft
             deviceOrientation = .up
-          //           print(deviceOrientation)
-            //imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
-            //buttonCameraShot.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            
+            UIView.animate(withDuration: 0.25, animations: {
+                self.slider.frame.origin.x = -175
+                self.slider.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
+                
+                self.buttonFlashSwitch.frame.origin.x = self.view.frame.size.width - 45
+                self.buttonFlashSwitch.frame.origin.y = 30
+                self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
+                
+                self.buttonImportPicture.frame.origin.x = 10
+                self.buttonImportPicture.frame.origin.y = 30
+                self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
+                
+                self.buttonCameraSwitch.frame.origin.x = 15
+                self.buttonCameraSwitch.frame.origin.y = self.view.frame.size.height - 40
+                self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
+            })
         }
         if orientation.rawValue == 4 { //landscapeRight
             deviceOrientation = .down
-            //print(deviceOrientation)
-            //imageView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
-            //buttonCameraShot.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+            
+            UIView.animate(withDuration: 0.25, animations: {
+                self.slider.frame.origin.x = self.view.frame.size.width - 225
+                self.slider.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
+                
+                self.buttonFlashSwitch.frame.origin.x = 10
+                self.buttonFlashSwitch.frame.origin.y = self.view.frame.size.height - 55
+                self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
+               
+                self.buttonImportPicture.frame.origin.x = self.view.frame.size.width - 60
+                self.buttonImportPicture.frame.origin.y = self.view.frame.size.height - 60
+                self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
+               
+                self.buttonCameraSwitch.frame.origin.x = self.view.frame.size.width - 35
+                self.buttonCameraSwitch.frame.origin.y = 30
+                self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
+            })
         }
     }
     
