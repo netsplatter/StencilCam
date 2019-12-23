@@ -72,14 +72,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         view.addSubview(buttonCameraSwitch)
 
         let buttonCameraShot = UIButton(type: .custom)
-        buttonCameraShot.setImage(UIImage(named: "shot"), for: UIControl.State.normal)
-        buttonCameraShot.setImage(UIImage(named: "shot-hover"), for: UIControl.State.highlighted)
-        buttonCameraShot.frame.size.width = 74
-        buttonCameraShot.frame.size.height = 74
-        buttonCameraShot.contentHorizontalAlignment = .fill
-        buttonCameraShot.contentVerticalAlignment = .fill
-        buttonCameraShot.imageView?.contentMode = .scaleAspectFit
-        buttonCameraShot.translatesAutoresizingMaskIntoConstraints = false
+        buttonCameraShot.setBackgroundImage(UIImage(named: "shot"), for: UIControl.State.normal)
+        buttonCameraShot.setBackgroundImage(UIImage(named: "shot-hover"), for: UIControl.State.highlighted)
+        buttonCameraShot.frame = CGRect(x: (view.frame.size.width / 2) - 37, y: view.frame.size.height - 100, width: 74, height: 74)
         buttonCameraShot.addTarget(self, action: #selector(capturePhoto), for: .touchUpInside)
         buttonCameraShot.layer.zPosition = 1
         view.addSubview(buttonCameraShot)
@@ -88,12 +83,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         flashEffectView.alpha = 0
         flashEffectView.backgroundColor = UIColor.white
         view.addSubview(flashEffectView)
-    
-        NSLayoutConstraint.activate([
-            buttonCameraShot.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
-            buttonCameraShot.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-        ])
-        
+                
         beginNewSession()
         addCoreMotion() // device orientation
     }
