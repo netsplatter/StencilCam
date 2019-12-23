@@ -361,7 +361,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
                 
                 self.buttonCameraSwitch.frame.origin.x = 15
-                self.buttonCameraSwitch.frame.origin.y = self.view.frame.size.height - 40
+                self.buttonCameraSwitch.frame.origin.y = self.view.frame.size.height - 45
                 self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
             })
         }
@@ -380,8 +380,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 self.buttonImportPicture.frame.origin.y = self.view.frame.size.height - 60
                 self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
                
-                self.buttonCameraSwitch.frame.origin.x = self.view.frame.size.width - 35
-                self.buttonCameraSwitch.frame.origin.y = 30
+                self.buttonCameraSwitch.frame.origin.x = self.view.frame.size.width - 40
+                self.buttonCameraSwitch.frame.origin.y = 40
                 self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
             })
         }
