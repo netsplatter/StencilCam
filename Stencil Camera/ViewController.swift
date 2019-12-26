@@ -26,11 +26,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     var imageView: UIImageView!
     var currentImage: UIImage!
     var slider: UISlider!
+    var gridFrame: CGRect!
+    var gridView: UIView!
     var motionManager: CMMotionManager!
     var flashMode: AVCaptureDevice.FlashMode! = .off
     let buttonFlashSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
     let buttonCameraSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
     let buttonImportPicture: UIButton = UIButton(type: UIButton.ButtonType.custom)
+    let buttonGridSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +63,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         buttonFlashSwitch.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         view.addSubview(buttonFlashSwitch)
         
+        buttonGridSwitch.setImage(UIImage(named: "grid"), for: UIControl.State.normal)
+        buttonGridSwitch.addTarget(self, action: #selector(switchGrid), for: UIControl.Event.touchUpInside)
+        buttonGridSwitch.frame = CGRect(x: view.frame.size.width - 40, y: 32, width: 32, height: 32)
+        buttonGridSwitch.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        view.addSubview(buttonGridSwitch)
+        
         buttonImportPicture.setImage(UIImage(named: "folder"), for: UIControl.State.normal)
         buttonImportPicture.addTarget(self, action: #selector(importPicture), for: UIControl.Event.touchUpInside)
         buttonImportPicture.frame = CGRect(x: 10, y: view.frame.size.height - 60, width: 50, height: 50)
@@ -83,9 +92,20 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         flashEffectView.alpha = 0
         flashEffectView.backgroundColor = UIColor.white
         view.addSubview(flashEffectView)
-                
+        
+        // Grid
+        gridFrame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+        gridView = GridView(frame: gridFrame)
+        gridView.backgroundColor = .clear
+        gridView.alpha = 0.7
+        gridView.isUserInteractionEnabled = false
+        gridView.isHidden = true
+        view.addSubview(gridView)
+        
         beginNewSession()
         addCoreMotion() // device orientation
+        
+        //draw(CGRect(x: 50, y: 50, width: 50, height: 50))
     }
     
     func setLibraryPic() {
@@ -152,6 +172,35 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         return nil
     }
     
+    @objc func switchFlash() {
+        print(11)
+        switch flashMode {
+        case .on:
+            flashMode = .off
+            buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
+            print("flash off")
+        case .off:
+            flashMode = .auto
+            buttonFlashSwitch.setImage(UIImage(named: "flash-auto"), for: UIControl.State.normal)
+            print("flash auto")
+        case .auto:
+            flashMode = .on
+            buttonFlashSwitch.setImage(UIImage(named: "flash-on"), for: UIControl.State.normal)
+            print("flash on")
+        default:
+            flashMode = .off
+            buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
+        }
+    }
+    
+    @objc func switchGrid() {
+        gridView.isHidden.toggle()
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.buttonGridSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(self.gridView.isHidden ? 0 : 180))
+        })
+    }
+    
     @objc func switchCamera() {
         captureSession.stopRunning()
         
@@ -172,28 +221,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         
         beginNewSession()
     }
-        
-    @objc func switchFlash() {
-        print(11)
-       switch flashMode {
-       case .on:
-           flashMode = .off
-           buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
-           print("flash off")
-       case .off:
-           flashMode = .auto
-           buttonFlashSwitch.setImage(UIImage(named: "flash-auto"), for: UIControl.State.normal)
-           print("flash auto")
-       case .auto:
-           flashMode = .on
-           buttonFlashSwitch.setImage(UIImage(named: "flash-on"), for: UIControl.State.normal)
-           print("flash on")
-       default:
-           flashMode = .off
-           buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
-       }
-   }
-
+    
     @objc func capturePhoto() {
         let settings = AVCapturePhotoSettings()
         let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
@@ -316,6 +344,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func deviceOrientationChanged(orientation: UIInterfaceOrientation) {
+        
         if orientation.rawValue == 1 { //portrait
             deviceOrientation = .right
             
@@ -327,6 +356,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 self.buttonFlashSwitch.frame.origin.y = 30
                 self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
                 
+                self.buttonGridSwitch.frame.origin.x = self.view.frame.size.width - 40
+                self.buttonGridSwitch.frame.origin.y = 30
+                
                 self.buttonImportPicture.frame.origin.x = 10
                 self.buttonImportPicture.frame.origin.y = self.view.frame.size.height - 60
                 self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
@@ -336,15 +368,17 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
             })
         }
+        
         if orientation.rawValue == 2 { //upside down
-           deviceOrientation = .left
+            deviceOrientation = .left
             
             UIView.animate(withDuration: 0.25, animations: {
                 self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(180))
                 self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(180))
                 self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(180))
             })
-       }
+        }
+        
         if orientation.rawValue == 3 { //landscapeLeft
             deviceOrientation = .up
             
@@ -356,6 +390,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 self.buttonFlashSwitch.frame.origin.y = 30
                 self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
                 
+                self.buttonGridSwitch.frame.origin.x = self.view.frame.size.width - 40
+                self.buttonGridSwitch.frame.origin.y = self.view.frame.size.height - 40
                 self.buttonImportPicture.frame.origin.x = 10
                 self.buttonImportPicture.frame.origin.y = 30
                 self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
@@ -365,6 +401,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
             })
         }
+        
         if orientation.rawValue == 4 { //landscapeRight
             deviceOrientation = .down
             
@@ -375,11 +412,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 self.buttonFlashSwitch.frame.origin.x = 10
                 self.buttonFlashSwitch.frame.origin.y = self.view.frame.size.height - 55
                 self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
-               
+                
+                self.buttonGridSwitch.frame.origin.x = 10
+                self.buttonGridSwitch.frame.origin.y = 30
+                
                 self.buttonImportPicture.frame.origin.x = self.view.frame.size.width - 60
                 self.buttonImportPicture.frame.origin.y = self.view.frame.size.height - 60
                 self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
-               
+                
                 self.buttonCameraSwitch.frame.origin.x = self.view.frame.size.width - 40
                 self.buttonCameraSwitch.frame.origin.y = 40
                 self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(-90))
@@ -395,10 +435,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
             return image
         }
+        
         if img.imageOrientation.rawValue == 1 { //landscapeRight
             image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
             return image
         }
+        
         if img.imageOrientation.rawValue == 2 { //down
             image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .left)
             return image
@@ -406,5 +448,4 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         
         return img
     }
-   
 }
