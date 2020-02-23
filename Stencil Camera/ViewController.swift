@@ -25,26 +25,34 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     var imageView: UIImageView!
     var currentImage: UIImage!
     var slider: UISlider!
+    var sliderPortraitPos = CGPoint()
     var gridFrame: CGRect!
     var gridView: UIView!
     var motionManager: CMMotionManager!
     var flashMode: AVCaptureDevice.FlashMode! = .off
     let buttonFlashSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
+    var buttonFlashSwitchPortraitPos = CGPoint()
     let buttonCameraSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
+    var buttonCameraSwitchPortraitPos = CGPoint()
     let buttonImportPicture: UIButton = UIButton(type: UIButton.ButtonType.custom)
+    var buttonImportPicturePortraitPos = CGPoint()
     let buttonGridSwitch: UIButton = UIButton(type: UIButton.ButtonType.custom)
+    var buttonGridSwitchPortraitPos = CGPoint()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        
+        view.backgroundColor = .black
+        
         captureDevice = getDevice(position: .back)
         deviceOrientation = .right
 
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.frame.size.width, height: view.frame.size.height)))
         imageView.contentMode = UIView.ContentMode.scaleAspectFit
         view.addSubview(imageView)
-                
-        slider = UISlider(frame: CGRect(origin: CGPoint(x: view.frame.size.width - 125, y: (UIScreen.main.bounds.size.height * 0.5) - 200), size: CGSize(width: 200, height: 400)))
+        
+        sliderPortraitPos = CGPoint(x: view.frame.size.width - 125, y: (UIScreen.main.bounds.size.height * 0.5) - 200)
+        slider = UISlider(frame: CGRect(origin: CGPoint(x: sliderPortraitPos.x, y: sliderPortraitPos.y), size: CGSize(width: 200, height: 400)))
         slider.minimumTrackTintColor = .white
         slider.maximumTrackTintColor = .black
         slider.transform = CGAffineTransform(rotationAngle: deg2rad(90))
@@ -56,27 +64,33 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         view.addSubview(slider)
   
         //buttons
+        buttonFlashSwitchPortraitPos = CGPoint(x: 10, y: 30)
         buttonFlashSwitch.setImage(UIImage(named: "flash-off"), for: UIControl.State.normal)
         buttonFlashSwitch.addTarget(self, action: #selector(switchFlash), for: UIControl.Event.touchUpInside)
-        buttonFlashSwitch.frame = CGRect(x: 10, y: 30, width: 30, height: 40)
+        buttonFlashSwitch.frame = CGRect(x: buttonFlashSwitchPortraitPos.x, y: buttonFlashSwitchPortraitPos.y, width: 30, height: 40)
         buttonFlashSwitch.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         view.addSubview(buttonFlashSwitch)
         
+        buttonGridSwitchPortraitPos = CGPoint(x: view.frame.size.width - 40, y: 32)
         buttonGridSwitch.setImage(UIImage(named: "grid"), for: UIControl.State.normal)
         buttonGridSwitch.addTarget(self, action: #selector(switchGrid), for: UIControl.Event.touchUpInside)
-        buttonGridSwitch.frame = CGRect(x: view.frame.size.width - 40, y: 32, width: 32, height: 32)
+        buttonGridSwitch.frame = CGRect(x: buttonGridSwitchPortraitPos.x, y: buttonGridSwitchPortraitPos.y, width: 32, height: 32)
         buttonGridSwitch.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         view.addSubview(buttonGridSwitch)
         
+        buttonImportPicturePortraitPos = CGPoint(x: view.frame.size.width * 0.05, y: view.frame.size.height - (view.frame.size.height * 0.09))
         buttonImportPicture.setImage(UIImage(named: "folder"), for: UIControl.State.normal) //default icon
+        buttonImportPicture.contentMode = .center
+        buttonImportPicture.imageView?.contentMode = .scaleAspectFit
         buttonImportPicture.addTarget(self, action: #selector(importPicture), for: UIControl.Event.touchUpInside)
-        buttonImportPicture.frame = CGRect(x: 10, y: view.frame.size.height - 60, width: 50, height: 50)
+        buttonImportPicture.frame = CGRect(x: buttonImportPicturePortraitPos.x, y: buttonImportPicturePortraitPos.y, width: 50, height: 50)
         buttonImportPicture.imageView?.layer.cornerRadius = 5
         view.addSubview(buttonImportPicture)
         
+        buttonCameraSwitchPortraitPos = CGPoint(x: view.frame.size.width - (view.frame.size.width * 0.13), y: view.frame.size.height - (view.frame.size.height * 0.06))
         buttonCameraSwitch.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
         buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: UIControl.Event.touchUpInside)
-        buttonCameraSwitch.frame = CGRect(x: view.frame.size.width - 40, y: view.frame.size.height - 40, width: 30, height: 22)
+        buttonCameraSwitch.frame = CGRect(x: buttonCameraSwitchPortraitPos.x, y: buttonCameraSwitchPortraitPos.y, width: 30, height: 22)
         view.addSubview(buttonCameraSwitch)
 
         let buttonCameraShot = UIButton(type: .custom)
@@ -139,21 +153,21 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func beginNewSession() {
-        if let input = try? AVCaptureDeviceInput(device: captureDevice!) {
-            if captureSession.canAddInput(input) {
-                self.captureSession.addInput(input)
-                self.captureSession.addOutput(cameraOutput)
-                let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                self.view.layer.addSublayer(previewLayer)
-                previewLayer.frame = self.view.layer.frame
-                previewLayer.zPosition = -1
-                captureSession.startRunning()
-                
-                setLibraryPic()
-            }
-        } else {
-            print("captureDevice error!")
-        }
+//        if let input = try? AVCaptureDeviceInput(device: captureDevice!) {
+//            if captureSession.canAddInput(input) {
+//                self.captureSession.addInput(input)
+//                self.captureSession.addOutput(cameraOutput)
+//                let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+//                self.view.layer.addSublayer(previewLayer)
+//                previewLayer.frame = self.view.layer.frame
+//                previewLayer.zPosition = -1
+//                captureSession.startRunning()
+//
+//                setLibraryPic()
+//            }
+//        } else {
+//            print("captureDevice error!")
+//        }
     }
     
     func getDevice(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
@@ -348,19 +362,19 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 self.slider.frame.origin.x = self.view.frame.size.width - 225
                 self.slider.transform = CGAffineTransform(rotationAngle: self.deg2rad(90))
                 
-                self.buttonFlashSwitch.frame.origin.x = 10
-                self.buttonFlashSwitch.frame.origin.y = 30
+                self.buttonFlashSwitch.frame.origin.x = self.buttonFlashSwitchPortraitPos.x
+                self.buttonFlashSwitch.frame.origin.y = self.buttonFlashSwitchPortraitPos.y
                 self.buttonFlashSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
                 
-                self.buttonGridSwitch.frame.origin.x = self.view.frame.size.width - 40
-                self.buttonGridSwitch.frame.origin.y = 30
+                self.buttonGridSwitch.frame.origin.x = self.buttonGridSwitchPortraitPos.x
+                self.buttonGridSwitch.frame.origin.y = self.buttonGridSwitchPortraitPos.y
                 
-                self.buttonImportPicture.frame.origin.x = 10
-                self.buttonImportPicture.frame.origin.y = self.view.frame.size.height - 60
+                self.buttonImportPicture.frame.origin.x = self.buttonImportPicturePortraitPos.x
+                self.buttonImportPicture.frame.origin.y = self.buttonImportPicturePortraitPos.y
                 self.buttonImportPicture.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
                 
-                self.buttonCameraSwitch.frame.origin.x = self.view.frame.size.width - 40
-                self.buttonCameraSwitch.frame.origin.y = self.view.frame.size.height - 40
+                self.buttonCameraSwitch.frame.origin.x = self.buttonCameraSwitchPortraitPos.x
+                self.buttonCameraSwitch.frame.origin.y = self.buttonCameraSwitchPortraitPos.y
                 self.buttonCameraSwitch.transform = CGAffineTransform(rotationAngle: self.deg2rad(0))
             })
         }
