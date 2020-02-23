@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import CoreMotion
-//import AssetsLibrary
 import Photos
 
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -69,7 +68,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         buttonGridSwitch.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         view.addSubview(buttonGridSwitch)
         
-        buttonImportPicture.setImage(UIImage(named: "folder"), for: UIControl.State.normal)
+        buttonImportPicture.setImage(UIImage(named: "folder"), for: UIControl.State.normal) //default icon
         buttonImportPicture.addTarget(self, action: #selector(importPicture), for: UIControl.Event.touchUpInside)
         buttonImportPicture.frame = CGRect(x: 10, y: view.frame.size.height - 60, width: 50, height: 50)
         buttonImportPicture.imageView?.layer.cornerRadius = 5
@@ -104,8 +103,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         
         beginNewSession()
         addCoreMotion() // device orientation
-        
-        //draw(CGRect(x: 50, y: 50, width: 50, height: 50))
     }
     
     func setLibraryPic() {
