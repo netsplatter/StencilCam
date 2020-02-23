@@ -105,7 +105,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         addCoreMotion() // device orientation
     }
     
-    func setLibraryPic() {
+    @objc func setLibraryPic() {
         let manager = PHImageManager.default()
         let imageAsset = PHAsset.fetchAssets(with: .image, options: nil)
         var lastImg: UIImage?
@@ -170,7 +170,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     @objc func switchFlash() {
-        print(11)
         switch flashMode {
         case .on:
             flashMode = .off
@@ -238,10 +237,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         }, completion: {(finished: Bool) in
             self.flashEffectView.alpha = 0
         })
-       
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.65, execute: {
-            self.setLibraryPic()
-        })
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
@@ -251,13 +246,17 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         }
         
         guard let imageData = photo.fileDataRepresentation() else { return }
-        guard var image = UIImage(data: imageData)?.withRenderingMode(.alwaysOriginal) else { return }
+        guard let image = UIImage(data: imageData)?.withRenderingMode(.alwaysOriginal) else { return }
         
-        var imageWithRightOrientation: UIImage = UIImage(cgImage: image.cgImage!, scale: 1, orientation: deviceOrientation)
+        let imageWithRightOrientation: UIImage = UIImage(cgImage: image.cgImage!, scale: 1, orientation: deviceOrientation)
                 
-        UIImageWriteToSavedPhotosAlbum(imageWithRightOrientation, self, nil, nil)
+        UIImageWriteToSavedPhotosAlbum(imageWithRightOrientation, self, #selector(imageSaved), nil)
         
         print("image captured.")
+    }
+    
+    @objc func imageSaved(_ image: UIImage, error: Error?, context: UnsafeMutableRawPointer?) {
+        self.setLibraryPic()
     }
     
     @objc func importPicture() {
