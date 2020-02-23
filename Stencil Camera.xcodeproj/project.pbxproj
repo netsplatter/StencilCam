@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		27448ACF231700FD00B2A64D /* Stencil Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stencil Camera.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		27448ACF231700FD00B2A64D /* StencilCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StencilCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27448AD2231700FE00B2A64D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27448AD4231700FE00B2A64D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		27448AD7231700FE00B2A64D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -48,7 +48,7 @@
 		27448AD0231700FD00B2A64D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				27448ACF231700FD00B2A64D /* Stencil Camera.app */,
+				27448ACF231700FD00B2A64D /* StencilCam.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,7 +84,7 @@
 			);
 			name = "Stencil Camera";
 			productName = "Stencil Camera";
-			productReference = 27448ACF231700FD00B2A64D /* Stencil Camera.app */;
+			productReference = 27448ACF231700FD00B2A64D /* StencilCam.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -294,7 +294,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raccoon.Stencil-Camera";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = StencilCam;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -312,7 +312,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raccoon.Stencil-Camera";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = StencilCam;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
