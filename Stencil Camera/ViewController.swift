@@ -181,12 +181,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             let x = touchPoint.location(in: videoView).y / screenSize.height
             let y = 1.0 - touchPoint.location(in: videoView).x / screenSize.width
             let focusPoint = CGPoint(x: x, y: y)
-            
             if let device = captureDevice {
                 if currentDirection == .back {
                     try? device.lockForConfiguration()
                     device.focusPointOfInterest = focusPoint
                     device.focusMode = .continuousAutoFocus
+                    device.whiteBalanceMode = .continuousAutoWhiteBalance
                     device.exposurePointOfInterest = focusPoint
                     device.exposureMode = .continuousAutoExposure
                     device.unlockForConfiguration()
