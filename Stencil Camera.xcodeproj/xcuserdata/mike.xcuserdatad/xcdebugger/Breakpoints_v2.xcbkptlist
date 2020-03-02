@@ -14,9 +14,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
-            landmarkName = "beginNewSession()"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "touchesBegan(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -30,9 +30,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
-            landmarkName = "beginNewSession()"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "touchesBegan(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -46,9 +46,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "beginNewSession()"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "touchesBegan(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -62,9 +62,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "beginNewSession()"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "touchesBegan(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -78,9 +78,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "touchesBegan(_:with:)"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "pinchRecognized(pinch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -94,9 +94,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "touchesBegan(_:with:)"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "pinchRecognized(pinch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -110,9 +110,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "touchesBegan(_:with:)"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "pinchRecognized(pinch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -126,9 +126,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "touchesBegan(_:with:)"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "pinchRecognized(pinch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -142,9 +142,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "touchesBegan(_:with:)"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "pinchRecognized(pinch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -158,10 +158,10 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
-            landmarkName = "touchesBegan(_:with:)"
-            landmarkType = "7">
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -174,9 +174,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
-            landmarkName = "getDevice(position:)"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "beginNewSession()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -190,10 +190,10 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
-            landmarkName = "switchCamera()"
-            landmarkType = "7">
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -206,9 +206,9 @@
             filePath = "Stencil Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "setLibraryPic()"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "pinchRecognized(pinch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

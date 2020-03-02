@@ -14,6 +14,8 @@ import Photos
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     var captureSession = AVCaptureSession()
     let cameraOutput = AVCapturePhotoOutput()
+    var gestureRecognizer = UIPinchGestureRecognizer()
+    var prevZoomFactor: CGFloat = 1
     var captureDevice: AVCaptureDevice?
     enum CameraDirection {
         case front
@@ -117,6 +119,47 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         
         beginNewSession()
         addCoreMotion() // device orientation
+        
+        gestureRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(pinchRecognized))
+        view.addGestureRecognizer(gestureRecognizer)
+    }
+
+    @objc func pinchRecognized(pinch: UIPinchGestureRecognizer) {
+        let device = captureDevice!
+        var vZoomFactor = pinch.scale * prevZoomFactor
+        var error:NSError!
+                
+        if pinch.state == .ended {
+            
+            if vZoomFactor >= 1.0 {
+                prevZoomFactor = vZoomFactor
+            } else {
+                prevZoomFactor = 1.0
+            }
+            
+            if vZoomFactor > 16.0 {
+                prevZoomFactor = 16.0
+            }
+        }
+                
+        do {
+            try device.lockForConfiguration()
+            defer {device.unlockForConfiguration()}
+            
+            if (vZoomFactor >= 1.0 && vZoomFactor <= device.activeFormat.videoMaxZoomFactor){
+                device.videoZoomFactor = vZoomFactor
+            } else {
+                NSLog("Unable to set videoZoom: (max %f, asked %f)", device.activeFormat.videoMaxZoomFactor, vZoomFactor);
+            }
+            
+            if vZoomFactor > 16.0 {
+                 NSLog("Unable to set videoZoom: (max %f, asked %f)", device.activeFormat.videoMaxZoomFactor, vZoomFactor);
+            }
+        } catch error as NSError{
+            NSLog("Unable to set videoZoom: %@", error.localizedDescription);
+        } catch _{
+
+        }
     }
     
     @objc func setLibraryPic() {
@@ -153,21 +196,21 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func beginNewSession() {
-//        if let input = try? AVCaptureDeviceInput(device: captureDevice!) {
-//            if captureSession.canAddInput(input) {
-//                self.captureSession.addInput(input)
-//                self.captureSession.addOutput(cameraOutput)
-//                let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-//                self.view.layer.addSublayer(previewLayer)
-//                previewLayer.frame = self.view.layer.frame
-//                previewLayer.zPosition = -1
-//                captureSession.startRunning()
-//
-//                setLibraryPic()
-//            }
-//        } else {
-//            print("captureDevice error!")
-//        }
+        if let input = try? AVCaptureDeviceInput(device: captureDevice!) {
+            if captureSession.canAddInput(input) {
+                self.captureSession.addInput(input)
+                self.captureSession.addOutput(cameraOutput)
+                let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                self.view.layer.addSublayer(previewLayer)
+                previewLayer.frame = self.view.layer.frame
+                previewLayer.zPosition = -1
+                captureSession.startRunning()
+
+                setLibraryPic()
+            }
+        } else {
+            print("captureDevice error!")
+        }
     }
     
     func getDevice(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
