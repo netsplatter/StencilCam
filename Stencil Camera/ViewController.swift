@@ -80,16 +80,17 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         buttonGridSwitch.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         view.addSubview(buttonGridSwitch)
         
-        buttonImportPicturePortraitPos = CGPoint(x: view.frame.size.width * 0.05, y: view.frame.size.height - (view.frame.size.height * 0.09))
-        buttonImportPicture.setImage(UIImage(named: "folder"), for: UIControl.State.normal) //default icon
-        buttonImportPicture.contentMode = .center
-        buttonImportPicture.imageView?.contentMode = .scaleAspectFit
+        buttonImportPicturePortraitPos = CGPoint(x: view.frame.size.width * 0.05, y: view.frame.size.height - (view.frame.size.height * 0.11))
+        buttonImportPicture.setImage(UIImage(named: "circle"), for: UIControl.State.normal) //default icon
+        buttonImportPicture.imageView?.contentMode = .scaleAspectFill
         buttonImportPicture.addTarget(self, action: #selector(importPicture), for: UIControl.Event.touchUpInside)
         buttonImportPicture.frame = CGRect(x: buttonImportPicturePortraitPos.x, y: buttonImportPicturePortraitPos.y, width: 50, height: 50)
-        buttonImportPicture.imageView?.layer.cornerRadius = 5
+        buttonImportPicture.imageView?.layer.cornerRadius = buttonImportPicture.frame.size.width / 2
+        buttonImportPicture.layer.masksToBounds = false
+        buttonImportPicture.clipsToBounds = true
         view.addSubview(buttonImportPicture)
         
-        buttonCameraSwitchPortraitPos = CGPoint(x: view.frame.size.width - (view.frame.size.width * 0.13), y: view.frame.size.height - (view.frame.size.height * 0.06))
+        buttonCameraSwitchPortraitPos = CGPoint(x: view.frame.size.width - (view.frame.size.width * 0.14), y: view.frame.size.height - (view.frame.size.height * 0.085))
         buttonCameraSwitch.setImage(UIImage(named: "camera-switch"), for: UIControl.State.normal)
         buttonCameraSwitch.addTarget(self, action: #selector(switchCamera), for: UIControl.Event.touchUpInside)
         buttonCameraSwitch.frame = CGRect(x: buttonCameraSwitchPortraitPos.x, y: buttonCameraSwitchPortraitPos.y, width: 30, height: 22)
