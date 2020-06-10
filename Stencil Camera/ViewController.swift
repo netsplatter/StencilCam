@@ -124,44 +124,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         gestureRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(pinchRecognized))
         view.addGestureRecognizer(gestureRecognizer)
     }
-
-    @objc func pinchRecognized(pinch: UIPinchGestureRecognizer) {
-        let device = captureDevice!
-        var vZoomFactor = pinch.scale * prevZoomFactor
-        var error:NSError!
-                
-        if pinch.state == .ended {
-            
-            if vZoomFactor >= 1.0 {
-                prevZoomFactor = vZoomFactor
-            } else {
-                prevZoomFactor = 1.0
-            }
-            
-            if vZoomFactor > 16.0 {
-                prevZoomFactor = 16.0
-            }
-        }
-                
-        do {
-            try device.lockForConfiguration()
-            defer {device.unlockForConfiguration()}
-            
-            if (vZoomFactor >= 1.0 && vZoomFactor <= device.activeFormat.videoMaxZoomFactor){
-                device.videoZoomFactor = vZoomFactor
-            } else {
-                NSLog("Unable to set videoZoom: (max %f, asked %f)", device.activeFormat.videoMaxZoomFactor, vZoomFactor);
-            }
-            
-            if vZoomFactor > 16.0 {
-                 NSLog("Unable to set videoZoom: (max %f, asked %f)", device.activeFormat.videoMaxZoomFactor, vZoomFactor);
-            }
-        } catch error as NSError{
-            NSLog("Unable to set videoZoom: %@", error.localizedDescription);
-        } catch _{
-
-        }
-    }
     
     @objc func setLibraryPic() {
         let manager = PHImageManager.default()
@@ -215,7 +177,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func getDevice(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        let devices = AVCaptureDevice.devices();
+        let devices = AVCaptureDevice.devices()
         
         for device in devices {
             let deviceConverted = device as! AVCaptureDevice
@@ -224,6 +186,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 return deviceConverted
             }
         }
+        
         return nil
     }
     
@@ -501,5 +464,44 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         }
         
         return img
+    }
+    
+    @objc func pinchRecognized(pinch: UIPinchGestureRecognizer) {
+        let device = captureDevice!
+        let vZoomFactor = pinch.scale * prevZoomFactor
+        var error: NSError!
+                
+        if pinch.state == .ended {
+            
+            if vZoomFactor >= 1.0 {
+                prevZoomFactor = vZoomFactor
+            } else {
+                prevZoomFactor = 1.0
+            }
+            
+            if vZoomFactor > 16.0 {
+                prevZoomFactor = 16.0
+            }
+        }
+                
+        do {
+            try device.lockForConfiguration()
+            defer {device.unlockForConfiguration()}
+            
+            if (vZoomFactor >= 1.0 && vZoomFactor <= device.activeFormat.videoMaxZoomFactor){
+                device.videoZoomFactor = vZoomFactor
+            } else {
+                NSLog("Unable to set videoZoom: (max %f, asked %f)", device.activeFormat.videoMaxZoomFactor, vZoomFactor);
+            }
+            
+            if vZoomFactor > 16.0 {
+                NSLog("Unable to set videoZoom: (max %f, asked %f)", device.activeFormat.videoMaxZoomFactor, vZoomFactor);
+            }
+            
+        } catch error as NSError {
+            NSLog("Unable to set videoZoom: %@", error.localizedDescription);
+        } catch _ {
+            
+        }
     }
 }
