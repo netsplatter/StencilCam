@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Stencil Camera
+//  StencilCam
 //
 //  Created by Mike on 2019-08-28.
 //  Copyright © 2019 Mike. All rights reserved.

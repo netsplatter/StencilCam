@@ -1,6 +1,6 @@
 //
 //  GridController.swift
-//  Stencil Camera
+//  StencilCam
 //
 //  Created by Mike on 2019-12-24.
 //  Copyright © 2019 Mike. All rights reserved.
