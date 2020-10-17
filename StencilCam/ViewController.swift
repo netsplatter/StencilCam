@@ -129,12 +129,17 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         let manager = PHImageManager.default()
         let imageAsset = PHAsset.fetchAssets(with: .image, options: nil)
         var lastImg: UIImage?
-      
-        manager.requestImage(for: imageAsset[imageAsset.count - 1], targetSize: CGSize(width: 20, height: 20), contentMode: .aspectFill, options: nil) { image, info in
-            lastImg = image
-        }
         
-        buttonImportPicture.setImage(lastImg, for: UIControl.State.normal)
+        if imageAsset.count > 0 {
+            manager.requestImage(for: imageAsset[imageAsset.count - 1], targetSize: CGSize(width: 20, height: 20), contentMode: .aspectFill, options: nil) { image, info in
+                lastImg = image
+            }
+            buttonImportPicture.setImage(lastImg, for: UIControl.State.normal)
+            
+        } else {
+            print("No image assets found.")
+            buttonImportPicture.setImage(UIImage(named: "circle"), for: UIControl.State.normal)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -177,17 +182,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func getDevice(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        let devices = AVCaptureDevice.devices()
         
-        for device in devices {
-            let deviceConverted = device as! AVCaptureDevice
-            
-            if (deviceConverted.position == position){
-                return deviceConverted
-            }
-        }
+        let deviceConverted = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: position)
         
-        return nil
+        return deviceConverted
     }
     
     @objc func switchFlash() {
@@ -295,9 +293,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
         let ImageWithNativeOrientation = importedImageNativeOrientation(img: image)
         imageView.image = ImageWithNativeOrientation
         imageView.backgroundColor = .black
-        print(imageView.image!.imageOrientation.rawValue)
-        print(imageView.image!.imageOrientation.hash)
-        
+
         if !slider.isEnabled {
             slider.isEnabled = true
         }
@@ -469,7 +465,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     @objc func pinchRecognized(pinch: UIPinchGestureRecognizer) {
         let device = captureDevice!
         let vZoomFactor = pinch.scale * prevZoomFactor
-        var error: NSError!
                 
         if pinch.state == .ended {
             
@@ -498,10 +493,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 NSLog("Unable to set videoZoom: (max %f, asked %f)", device.activeFormat.videoMaxZoomFactor, vZoomFactor);
             }
             
-        } catch error as NSError {
+        } catch let error {
             NSLog("Unable to set videoZoom: %@", error.localizedDescription);
-        } catch _ {
-            
         }
     }
 }

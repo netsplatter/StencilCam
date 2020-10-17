@@ -11,8 +11,9 @@
 		27448AD5231700FE00B2A64D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27448AD4231700FE00B2A64D /* ViewController.swift */; };
 		27448AD8231700FE00B2A64D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27448AD6231700FE00B2A64D /* Main.storyboard */; };
 		27448ADA231700FF00B2A64D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27448AD9231700FF00B2A64D /* Assets.xcassets */; };
-		27448ADD231700FF00B2A64D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27448ADB231700FF00B2A64D /* LaunchScreen.storyboard */; };
+		278A17E2253AC24400E08299 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278A17E1253AC24400E08299 /* LaunchScreen.storyboard */; };
 		2797215323B2AE8F0054BE25 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2797215223B2AE8F0054BE25 /* GridView.swift */; };
+		27AC5C31253AC5C200AA00E2 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 27AC5C30253AC5C200AA00E2 /* LaunchScreen.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,9 +22,10 @@
 		27448AD4231700FE00B2A64D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		27448AD7231700FE00B2A64D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		27448AD9231700FF00B2A64D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		27448ADC231700FF00B2A64D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27448ADE231700FF00B2A64D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		278A17E1253AC24400E08299 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2797215223B2AE8F0054BE25 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		27AC5C30253AC5C200AA00E2 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +63,8 @@
 				27448AD6231700FE00B2A64D /* Main.storyboard */,
 				27448AD9231700FF00B2A64D /* Assets.xcassets */,
 				2797215223B2AE8F0054BE25 /* GridView.swift */,
-				27448ADB231700FF00B2A64D /* LaunchScreen.storyboard */,
+				278A17E1253AC24400E08299 /* LaunchScreen.storyboard */,
+				27AC5C30253AC5C200AA00E2 /* LaunchScreen.png */,
 				27448ADE231700FF00B2A64D /* Info.plist */,
 			);
 			path = StencilCam;
@@ -94,7 +97,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = Mike;
 				TargetAttributes = {
 					27448ACE231700FD00B2A64D = {
@@ -125,8 +128,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27448ADD231700FF00B2A64D /* LaunchScreen.storyboard in Resources */,
+				278A17E2253AC24400E08299 /* LaunchScreen.storyboard in Resources */,
 				27448ADA231700FF00B2A64D /* Assets.xcassets in Resources */,
+				27AC5C31253AC5C200AA00E2 /* LaunchScreen.png in Resources */,
 				27448AD8231700FE00B2A64D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -153,14 +157,6 @@
 				27448AD7231700FE00B2A64D /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		27448ADB231700FF00B2A64D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				27448ADC231700FF00B2A64D /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -192,6 +188,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -253,6 +250,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
