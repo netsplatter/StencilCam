@@ -259,7 +259,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        
         if let error = error {
             print(error.localizedDescription)
         }
@@ -347,7 +346,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
                 }
             }
             else {
-                print("error : \(error!)")
+                print("error: \(error!)")
             }
         })
     }
@@ -357,7 +356,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func deviceOrientationChanged(orientation: UIInterfaceOrientation) {
-        
         if orientation.rawValue == 1 { //portrait
             deviceOrientation = .right
             
