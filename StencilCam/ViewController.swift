@@ -11,7 +11,7 @@ import AVFoundation
 import CoreMotion
 import Photos
 
-class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIToolbarDelegate {
     var captureSession = AVCaptureSession()
     let cameraOutput = AVCapturePhotoOutput()
     var gestureRecognizer = UIPinchGestureRecognizer()
@@ -145,6 +145,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let videoView = self.view
         let screenSize = videoView!.bounds.size
+        
         if let touchPoint = touches.first {
             let x = touchPoint.location(in: videoView).y / screenSize.height
             let y = 1.0 - touchPoint.location(in: videoView).x / screenSize.width
@@ -168,12 +169,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
             if captureSession.canAddInput(input) {
                 self.captureSession.addInput(input)
                 self.captureSession.addOutput(cameraOutput)
+                
                 let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                self.view.layer.addSublayer(previewLayer)
-                previewLayer.frame = self.view.layer.frame
+                previewLayer.frame = UIScreen.main.bounds
+                previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.zPosition = -1
+                self.view.layer.addSublayer(previewLayer)
+                
                 captureSession.startRunning()
-
                 setLibraryPic()
             }
         } else {
@@ -182,9 +185,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, UINavigat
     }
     
     func getDevice(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        
         let deviceConverted = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: position)
-        
         return deviceConverted
     }
     
