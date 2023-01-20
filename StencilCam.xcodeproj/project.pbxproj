@@ -3,33 +3,73 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		27448AD3231700FE00B2A64D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27448AD2231700FE00B2A64D /* AppDelegate.swift */; };
-		27448AD5231700FE00B2A64D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27448AD4231700FE00B2A64D /* ViewController.swift */; };
-		27448AD8231700FE00B2A64D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27448AD6231700FE00B2A64D /* Main.storyboard */; };
-		27448ADA231700FF00B2A64D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27448AD9231700FF00B2A64D /* Assets.xcassets */; };
-		278A17E2253AC24400E08299 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278A17E1253AC24400E08299 /* LaunchScreen.storyboard */; };
-		2797215323B2AE8F0054BE25 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2797215223B2AE8F0054BE25 /* GridView.swift */; };
-		27AC5C31253AC5C200AA00E2 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 27AC5C30253AC5C200AA00E2 /* LaunchScreen.png */; };
+		279D3B87296F7DB400664ABC /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279D3B86296F7DB400664ABC /* GridView.swift */; };
+		279D3B89296F81EE00664ABC /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279D3B88296F81EE00664ABC /* CameraView.swift */; };
+		279D3B8B296F822F00664ABC /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279D3B8A296F822F00664ABC /* CameraViewController.swift */; };
+		279D3B8D296F827E00664ABC /* PhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279D3B8C296F827E00664ABC /* PhotoAlbum.swift */; };
+		27C0AF772968F07B00DDBFAB /* StencilCamApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C0AF762968F07B00DDBFAB /* StencilCamApp.swift */; };
+		27C0AF792968F07B00DDBFAB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C0AF782968F07B00DDBFAB /* ContentView.swift */; };
+		27C0AF7B2968F07C00DDBFAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27C0AF7A2968F07C00DDBFAB /* Assets.xcassets */; };
+		27C0AF7E2968F07C00DDBFAB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27C0AF7D2968F07C00DDBFAB /* Preview Assets.xcassets */; };
+		27C0AF882968F07C00DDBFAB /* StencilCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C0AF872968F07C00DDBFAB /* StencilCamTests.swift */; };
+		27C0AF922968F07C00DDBFAB /* StencilCamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C0AF912968F07C00DDBFAB /* StencilCamUITests.swift */; };
+		27C0AF942968F07C00DDBFAB /* StencilCamUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C0AF932968F07C00DDBFAB /* StencilCamUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		27C0AF842968F07C00DDBFAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27C0AF6B2968F07B00DDBFAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27C0AF722968F07B00DDBFAB;
+			remoteInfo = StencilCam;
+		};
+		27C0AF8E2968F07C00DDBFAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27C0AF6B2968F07B00DDBFAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27C0AF722968F07B00DDBFAB;
+			remoteInfo = StencilCam;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		27448ACF231700FD00B2A64D /* StencilCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StencilCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		27448AD2231700FE00B2A64D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		27448AD4231700FE00B2A64D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		27448AD7231700FE00B2A64D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		27448AD9231700FF00B2A64D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		27448ADE231700FF00B2A64D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		278A17E1253AC24400E08299 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		2797215223B2AE8F0054BE25 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
-		27AC5C30253AC5C200AA00E2 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
+		279D3B86296F7DB400664ABC /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		279D3B88296F81EE00664ABC /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		279D3B8A296F822F00664ABC /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		279D3B8C296F827E00664ABC /* PhotoAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbum.swift; sourceTree = "<group>"; };
+		27C0AF732968F07B00DDBFAB /* StencilCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StencilCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27C0AF762968F07B00DDBFAB /* StencilCamApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilCamApp.swift; sourceTree = "<group>"; };
+		27C0AF782968F07B00DDBFAB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		27C0AF7A2968F07C00DDBFAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		27C0AF7D2968F07C00DDBFAB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		27C0AF832968F07C00DDBFAB /* StencilCamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StencilCamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		27C0AF872968F07C00DDBFAB /* StencilCamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilCamTests.swift; sourceTree = "<group>"; };
+		27C0AF8D2968F07C00DDBFAB /* StencilCamUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StencilCamUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		27C0AF912968F07C00DDBFAB /* StencilCamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilCamUITests.swift; sourceTree = "<group>"; };
+		27C0AF932968F07C00DDBFAB /* StencilCamUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilCamUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		27448ACC231700FD00B2A64D /* Frameworks */ = {
+		27C0AF702968F07B00DDBFAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27C0AF802968F07C00DDBFAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27C0AF8A2968F07C00DDBFAB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -39,137 +79,245 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		27448AC6231700FD00B2A64D = {
+		27C0AF6A2968F07B00DDBFAB = {
 			isa = PBXGroup;
 			children = (
-				27448AD1231700FD00B2A64D /* StencilCam */,
-				27448AD0231700FD00B2A64D /* Products */,
+				27C0AF752968F07B00DDBFAB /* StencilCam */,
+				27C0AF862968F07C00DDBFAB /* StencilCamTests */,
+				27C0AF902968F07C00DDBFAB /* StencilCamUITests */,
+				27C0AF742968F07B00DDBFAB /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		27448AD0231700FD00B2A64D /* Products */ = {
+		27C0AF742968F07B00DDBFAB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				27448ACF231700FD00B2A64D /* StencilCam.app */,
+				27C0AF732968F07B00DDBFAB /* StencilCam.app */,
+				27C0AF832968F07C00DDBFAB /* StencilCamTests.xctest */,
+				27C0AF8D2968F07C00DDBFAB /* StencilCamUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		27448AD1231700FD00B2A64D /* StencilCam */ = {
+		27C0AF752968F07B00DDBFAB /* StencilCam */ = {
 			isa = PBXGroup;
 			children = (
-				27448AD2231700FE00B2A64D /* AppDelegate.swift */,
-				27448AD4231700FE00B2A64D /* ViewController.swift */,
-				27448AD6231700FE00B2A64D /* Main.storyboard */,
-				27448AD9231700FF00B2A64D /* Assets.xcassets */,
-				2797215223B2AE8F0054BE25 /* GridView.swift */,
-				278A17E1253AC24400E08299 /* LaunchScreen.storyboard */,
-				27AC5C30253AC5C200AA00E2 /* LaunchScreen.png */,
-				27448ADE231700FF00B2A64D /* Info.plist */,
+				279D3B88296F81EE00664ABC /* CameraView.swift */,
+				279D3B8A296F822F00664ABC /* CameraViewController.swift */,
+				27C0AF762968F07B00DDBFAB /* StencilCamApp.swift */,
+				279D3B86296F7DB400664ABC /* GridView.swift */,
+				279D3B8C296F827E00664ABC /* PhotoAlbum.swift */,
+				27C0AF782968F07B00DDBFAB /* ContentView.swift */,
+				27C0AF7A2968F07C00DDBFAB /* Assets.xcassets */,
+				27C0AF7C2968F07C00DDBFAB /* Preview Content */,
 			);
 			path = StencilCam;
+			sourceTree = "<group>";
+		};
+		27C0AF7C2968F07C00DDBFAB /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				27C0AF7D2968F07C00DDBFAB /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		27C0AF862968F07C00DDBFAB /* StencilCamTests */ = {
+			isa = PBXGroup;
+			children = (
+				27C0AF872968F07C00DDBFAB /* StencilCamTests.swift */,
+			);
+			path = StencilCamTests;
+			sourceTree = "<group>";
+		};
+		27C0AF902968F07C00DDBFAB /* StencilCamUITests */ = {
+			isa = PBXGroup;
+			children = (
+				27C0AF912968F07C00DDBFAB /* StencilCamUITests.swift */,
+				27C0AF932968F07C00DDBFAB /* StencilCamUITestsLaunchTests.swift */,
+			);
+			path = StencilCamUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		27448ACE231700FD00B2A64D /* StencilCam */ = {
+		27C0AF722968F07B00DDBFAB /* StencilCam */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 27448AE1231700FF00B2A64D /* Build configuration list for PBXNativeTarget "StencilCam" */;
+			buildConfigurationList = 27C0AF972968F07C00DDBFAB /* Build configuration list for PBXNativeTarget "StencilCam" */;
 			buildPhases = (
-				27448ACB231700FD00B2A64D /* Sources */,
-				27448ACC231700FD00B2A64D /* Frameworks */,
-				27448ACD231700FD00B2A64D /* Resources */,
+				27C0AF6F2968F07B00DDBFAB /* Sources */,
+				27C0AF702968F07B00DDBFAB /* Frameworks */,
+				27C0AF712968F07B00DDBFAB /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = StencilCam;
-			productName = "Stencil Camera";
-			productReference = 27448ACF231700FD00B2A64D /* StencilCam.app */;
+			productName = StencilCam;
+			productReference = 27C0AF732968F07B00DDBFAB /* StencilCam.app */;
 			productType = "com.apple.product-type.application";
+		};
+		27C0AF822968F07C00DDBFAB /* StencilCamTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27C0AF9A2968F07C00DDBFAB /* Build configuration list for PBXNativeTarget "StencilCamTests" */;
+			buildPhases = (
+				27C0AF7F2968F07C00DDBFAB /* Sources */,
+				27C0AF802968F07C00DDBFAB /* Frameworks */,
+				27C0AF812968F07C00DDBFAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				27C0AF852968F07C00DDBFAB /* PBXTargetDependency */,
+			);
+			name = StencilCamTests;
+			productName = StencilCamTests;
+			productReference = 27C0AF832968F07C00DDBFAB /* StencilCamTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		27C0AF8C2968F07C00DDBFAB /* StencilCamUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27C0AF9D2968F07C00DDBFAB /* Build configuration list for PBXNativeTarget "StencilCamUITests" */;
+			buildPhases = (
+				27C0AF892968F07C00DDBFAB /* Sources */,
+				27C0AF8A2968F07C00DDBFAB /* Frameworks */,
+				27C0AF8B2968F07C00DDBFAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				27C0AF8F2968F07C00DDBFAB /* PBXTargetDependency */,
+			);
+			name = StencilCamUITests;
+			productName = StencilCamUITests;
+			productReference = 27C0AF8D2968F07C00DDBFAB /* StencilCamUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		27448AC7231700FD00B2A64D /* Project object */ = {
+		27C0AF6B2968F07B00DDBFAB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1200;
-				ORGANIZATIONNAME = Mike;
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
-					27448ACE231700FD00B2A64D = {
-						CreatedOnToolsVersion = 10.3;
+					27C0AF722968F07B00DDBFAB = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+					27C0AF822968F07C00DDBFAB = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 27C0AF722968F07B00DDBFAB;
+					};
+					27C0AF8C2968F07C00DDBFAB = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 27C0AF722968F07B00DDBFAB;
 					};
 				};
 			};
-			buildConfigurationList = 27448ACA231700FD00B2A64D /* Build configuration list for PBXProject "StencilCam" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = 27C0AF6E2968F07B00DDBFAB /* Build configuration list for PBXProject "StencilCam" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 27448AC6231700FD00B2A64D;
-			productRefGroup = 27448AD0231700FD00B2A64D /* Products */;
+			mainGroup = 27C0AF6A2968F07B00DDBFAB;
+			productRefGroup = 27C0AF742968F07B00DDBFAB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				27448ACE231700FD00B2A64D /* StencilCam */,
+				27C0AF722968F07B00DDBFAB /* StencilCam */,
+				27C0AF822968F07C00DDBFAB /* StencilCamTests */,
+				27C0AF8C2968F07C00DDBFAB /* StencilCamUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		27448ACD231700FD00B2A64D /* Resources */ = {
+		27C0AF712968F07B00DDBFAB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				278A17E2253AC24400E08299 /* LaunchScreen.storyboard in Resources */,
-				27448ADA231700FF00B2A64D /* Assets.xcassets in Resources */,
-				27AC5C31253AC5C200AA00E2 /* LaunchScreen.png in Resources */,
-				27448AD8231700FE00B2A64D /* Main.storyboard in Resources */,
+				27C0AF7E2968F07C00DDBFAB /* Preview Assets.xcassets in Resources */,
+				27C0AF7B2968F07C00DDBFAB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27C0AF812968F07C00DDBFAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27C0AF8B2968F07C00DDBFAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		27448ACB231700FD00B2A64D /* Sources */ = {
+		27C0AF6F2968F07B00DDBFAB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27448AD5231700FE00B2A64D /* ViewController.swift in Sources */,
-				2797215323B2AE8F0054BE25 /* GridView.swift in Sources */,
-				27448AD3231700FE00B2A64D /* AppDelegate.swift in Sources */,
+				27C0AF792968F07B00DDBFAB /* ContentView.swift in Sources */,
+				279D3B8B296F822F00664ABC /* CameraViewController.swift in Sources */,
+				279D3B8D296F827E00664ABC /* PhotoAlbum.swift in Sources */,
+				279D3B87296F7DB400664ABC /* GridView.swift in Sources */,
+				27C0AF772968F07B00DDBFAB /* StencilCamApp.swift in Sources */,
+				279D3B89296F81EE00664ABC /* CameraView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27C0AF7F2968F07C00DDBFAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27C0AF882968F07C00DDBFAB /* StencilCamTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27C0AF892968F07C00DDBFAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27C0AF922968F07C00DDBFAB /* StencilCamUITests.swift in Sources */,
+				27C0AF942968F07C00DDBFAB /* StencilCamUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		27448AD6231700FE00B2A64D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				27448AD7231700FE00B2A64D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
+/* Begin PBXTargetDependency section */
+		27C0AF852968F07C00DDBFAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27C0AF722968F07B00DDBFAB /* StencilCam */;
+			targetProxy = 27C0AF842968F07C00DDBFAB /* PBXContainerItemProxy */;
 		};
-/* End PBXVariantGroup section */
+		27C0AF8F2968F07C00DDBFAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27C0AF722968F07B00DDBFAB /* StencilCam */;
+			targetProxy = 27C0AF8E2968F07C00DDBFAB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		27448ADF231700FF00B2A64D /* Debug */ = {
+		27C0AF952968F07C00DDBFAB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -195,7 +343,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -214,7 +361,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -224,14 +371,13 @@
 			};
 			name = Debug;
 		};
-		27448AE0231700FF00B2A64D /* Release */ = {
+		27C0AF962968F07C00DDBFAB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -257,7 +403,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -270,7 +415,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -280,64 +425,186 @@
 			};
 			name = Release;
 		};
-		27448AE2231700FF00B2A64D /* Debug */ = {
+		27C0AF982968F07C00DDBFAB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"StencilCam/Preview Content\"";
 				DEVELOPMENT_TEAM = KJ775HL522;
-				INFOPLIST_FILE = StencilCam/Info.plist;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera access";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to save photos in your photo library";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To work properly, this app needs access to photo library";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = StencilCam;
-				PRODUCT_NAME = StencilCam;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mraccoon.StencilCam;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		27448AE3231700FF00B2A64D /* Release */ = {
+		27C0AF992968F07C00DDBFAB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"StencilCam/Preview Content\"";
 				DEVELOPMENT_TEAM = KJ775HL522;
-				INFOPLIST_FILE = StencilCam/Info.plist;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera access";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to save photos in your photo library";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To work properly, this app needs access to photo library";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = StencilCam;
-				PRODUCT_NAME = StencilCam;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mraccoon.StencilCam;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		27C0AF9B2968F07C00DDBFAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KJ775HL522;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mraccoon.StencilCamTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StencilCam.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StencilCam";
+			};
+			name = Debug;
+		};
+		27C0AF9C2968F07C00DDBFAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KJ775HL522;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mraccoon.StencilCamTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StencilCam.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StencilCam";
+			};
+			name = Release;
+		};
+		27C0AF9E2968F07C00DDBFAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KJ775HL522;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mraccoon.StencilCamUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = StencilCam;
+			};
+			name = Debug;
+		};
+		27C0AF9F2968F07C00DDBFAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KJ775HL522;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mraccoon.StencilCamUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = StencilCam;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		27448ACA231700FD00B2A64D /* Build configuration list for PBXProject "StencilCam" */ = {
+		27C0AF6E2968F07B00DDBFAB /* Build configuration list for PBXProject "StencilCam" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				27448ADF231700FF00B2A64D /* Debug */,
-				27448AE0231700FF00B2A64D /* Release */,
+				27C0AF952968F07C00DDBFAB /* Debug */,
+				27C0AF962968F07C00DDBFAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		27448AE1231700FF00B2A64D /* Build configuration list for PBXNativeTarget "StencilCam" */ = {
+		27C0AF972968F07C00DDBFAB /* Build configuration list for PBXNativeTarget "StencilCam" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				27448AE2231700FF00B2A64D /* Debug */,
-				27448AE3231700FF00B2A64D /* Release */,
+				27C0AF982968F07C00DDBFAB /* Debug */,
+				27C0AF992968F07C00DDBFAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27C0AF9A2968F07C00DDBFAB /* Build configuration list for PBXNativeTarget "StencilCamTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27C0AF9B2968F07C00DDBFAB /* Debug */,
+				27C0AF9C2968F07C00DDBFAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27C0AF9D2968F07C00DDBFAB /* Build configuration list for PBXNativeTarget "StencilCamUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27C0AF9E2968F07C00DDBFAB /* Debug */,
+				27C0AF9F2968F07C00DDBFAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 27448AC7231700FD00B2A64D /* Project object */;
+	rootObject = 27C0AF6B2968F07B00DDBFAB /* Project object */;
 }

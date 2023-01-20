@@ -1,15 +1,22 @@
 //
-//  GridController.swift
+//  GridView.swift
 //  StencilCam
 //
-//  Created by Mike on 2019-12-24.
-//  Copyright © 2019 Mike. All rights reserved.
+//  Created by Mike on 1/11/23.
 //
 
-import UIKit
+import SwiftUI
 
-class GridView: UIView {
+struct GridView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        return GridViewUIView()
+    }
     
+    func updateUIView(_ uiView: UIView, context: Context) {
+    }
+}
+
+class GridViewUIView: UIView {
     var rows: Int = 4
     var columns: Int = 2
     var lineWidth: CGFloat = 1.0
