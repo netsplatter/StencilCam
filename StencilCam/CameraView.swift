@@ -138,30 +138,6 @@ struct CameraView: View {
             }
         }
         .edgesIgnoringSafeArea(.all)
-        .gesture(DragGesture(minimumDistance: 30, coordinateSpace: .global).onEnded { value in
-            let horizontalAmount = value.translation.width as CGFloat
-            let verticalAmount = value.translation.height as CGFloat
-            
-            if abs(horizontalAmount) > abs(verticalAmount) {
-                if horizontalAmount < 0 {
-                    // swipe left
-                } else {
-                    // swipe right
-                   
-                }
-            } else {
-                if verticalAmount < 0 {
-                    // swipe up
-                    
-                } else {
-                    // swipe down
-                }
-            }
-        })
-    }
-    
-    func deg2rad(_ number: CGFloat) -> CGFloat {
-        return number * .pi / 180
     }
 }
 

@@ -16,14 +16,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, AV
     let captureSession = AVCaptureSession()
     let cameraOutput = AVCapturePhotoOutput()
     let picker = UIImagePickerController()
-    var imageURL: URL?
-    
-    public enum CameraPosition {
-        case front
-        case back
-    }
 
-    var currentCameraPosition: CameraPosition?
     var motionManager: CMMotionManager!
     @Published var deviceOrientation: AVCaptureVideoOrientation = .portrait
     
@@ -104,27 +97,6 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, AV
         }, completion: {(finished: Bool) in
             self.flashEffect = false
         })
-    }
-
-    func switchCamera() {
-        captureSession.stopRunning()
-        
-        if let inputs = captureSession.inputs as? [AVCaptureDeviceInput] {
-            for input in inputs {
-                captureSession.removeInput(input)
-                captureSession.removeOutput(cameraOutput)
-            }
-        }
-        
-        if (currentCameraPosition == .front) {
-            captureDevice = getDevice(position: .back)
-            currentCameraPosition = .back
-        } else {
-            captureDevice = getDevice(position: .front)
-            currentCameraPosition = .front
-        }
-        
-        beginNewSession()
     }
     
     func getDevice(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
