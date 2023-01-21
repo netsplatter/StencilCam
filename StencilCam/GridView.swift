@@ -9,7 +9,9 @@ import SwiftUI
 
 struct GridView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
-        return GridViewUIView()
+        let uiView = GridViewUIView()
+        uiView.backgroundColor = .clear
+        return uiView
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {

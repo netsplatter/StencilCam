@@ -15,6 +15,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, AV
     var captureDevice: AVCaptureDevice?
     let captureSession = AVCaptureSession()
     let cameraOutput = AVCapturePhotoOutput()
+    let picker = UIImagePickerController()
     var imageURL: URL?
     
     public enum CameraPosition {
@@ -24,11 +25,13 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, AV
 
     var currentCameraPosition: CameraPosition?
     var motionManager: CMMotionManager!
-    var deviceOrientation: AVCaptureVideoOrientation!
+    @Published var deviceOrientation: AVCaptureVideoOrientation = .portrait
     
     var flashMode: AVCaptureDevice.FlashMode! = .off
     @Published var flashEffect = false
     @Published var libraryPic: UIImage = UIImage(named: "folder")!
+    @Published var imageOverlay: UIImage = UIImage()
+    @Published var showOverlay: Bool = false
     
     var photoAlbum: PhotoAlbum!
     
@@ -45,7 +48,6 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, AV
     override func viewDidLoad() {
         super.viewDidLoad()
         captureDevice = getDevice(position: .back)
-        deviceOrientation = .portrait
         beginNewSession()
         
         addCoreMotion() // device orientation
@@ -137,6 +139,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, AV
         
         guard let imageData = photo.fileDataRepresentation() else { return }
         guard let image = UIImage(data: imageData)?.withRenderingMode(.alwaysOriginal) else { return }
+        //guard let deviceOrientation = deviceOrientation else { return }
         
         let imageWithOrientation: UIImage = UIImage(cgImage: image.cgImage!, scale: 1, orientation: deviceToImageOrientation(deviceOrientation))
                 
@@ -185,6 +188,12 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, AV
         }
         
         return orientation
+    }
+    
+    func imageFadeInAnimation() {
+        UIView.animate(withDuration: 1, animations: {
+     //       self.imageView.alpha = CGFloat(self.slider.value / 100)
+        })
     }
 }
 
@@ -249,22 +258,53 @@ extension CameraViewController {
             deviceOrientation = .landscapeLeft
         }
     }
+    
+    func importedImageNativeOrientation(img: UIImage) -> UIImage {
+        //0 left 1 right 2 upside 3 up
+        var image: UIImage
+        
+        if img.imageOrientation == .down { //landscapeLeft
+            image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
+            return image
+        }
+        
+        if img.imageOrientation == .up { //landscapeRight
+            image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
+            return image
+        }
+        
+//        if img.imageOrientation == .right { //portrait
+//            image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .right)
+//            return image
+//        }
+        
+//        if img.imageOrientation == .left { //portraitUpsideDown
+//            image = UIImage(cgImage: img.cgImage!, scale: 1, orientation: .left)
+//            return image
+//        }
+        
+        return img
+    }
 }
 
 // Image Picker
 extension CameraViewController: UIImagePickerControllerDelegate {
-    func openPhotoGallery() {
-        let picker = UIImagePickerController()
+    func importImage() {
+        picker.allowsEditing = false
         picker.delegate = self
         picker.sourceType = .savedPhotosAlbum
         picker.mediaTypes = ["public.image"]
-        picker.allowsEditing = true
-        
-        present(picker, animated: true, completion: nil)
+        present(picker, animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        self.imageURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
-        dismiss(animated: true)
+        guard let image = info[.originalImage] as? UIImage else { return }
+        //imageOverlay.alpha = 0
+        dismiss(animated: true, completion: imageFadeInAnimation)
+        let ImageWithNativeOrientation = importedImageNativeOrientation(img: image)
+        imageOverlay = ImageWithNativeOrientation
+        //imageView.backgroundColor = .black
+
+        showOverlay = true
     }
 }

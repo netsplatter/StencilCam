@@ -13,7 +13,7 @@ struct ContentView: View {
             Color.black
             CameraView()
         }
-        .background(.black)
+        .background(Color.black)
         .ignoresSafeArea()
     }
 }

@@ -13,13 +13,9 @@ struct CameraView: View {
     @State private var cameraError = false
     @State private var cameraSwitchID: UUID? = nil
     @State private var recordingID: UUID? = nil
-    @State private var videoPickerID: UUID? = nil
-    @State private var isRecording: Bool = false
-    @State private var recTimer = 0
-    @State private var recTimerIsActive = false
-    @State private var showRecIcon = false
-    @State private var timerColor = Color.black
-    @State private var showNextView = false
+    @State private var showGrid: Bool = false
+    @State private var sliderValue: Double = 50.0
+    @State private var rotation: Double = 0.0
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -31,45 +27,69 @@ struct CameraView: View {
     
     var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 0) {
+                HStack {
+                    Button(action: {
+                        
+                    }) {
+                        Image("flash-on")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                    }
+                    .disabled(self.cameraError)
+                    .opacity(self.cameraError ? 0.7 : 1)
+                    .rotationEffect(.degrees(rotation))
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        showGrid.toggle()
+                    }) {
+                        Image("grid")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                    }
+                    .disabled(self.cameraError)
+                    .opacity(self.cameraError ? 0.7 : 1)
+                }
+                .padding(.top, 45)
+                .padding(.leading, 10)
+                .padding(.trailing, 15)
                 
                 Spacer()
                 
-                LazyVGrid (
-                    columns: controlColumns,
-                    alignment: .center
-                ) {
-                    ForEach(0...2, id: \.self) { index in
-                        switch index {
-                        case 0:
-                            if !self.isRecording {
-                                Button(action: {
-                                    
-                                }) {
-                                    Image(uiImage: cameraViewController.libraryPic)
-                                }
-                            }
-                            
-                        case 1:
-                            Button(action: {
-                                cameraViewController.capturePhoto()
-                            }) {
-                                Image("shot")
-                            }
-                            .disabled(self.cameraError)
-                            .opacity(self.cameraError ? 0.7 : 1)
-                            
-                        case 2:
-                           Spacer()
-                            
-                        default: EmptyView()
+                ZStack {
+                    Button(action: {
+                        cameraViewController.capturePhoto()
+                    }) {
+                        Image("shot")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                    }
+                    .disabled(self.cameraError)
+                    .opacity(self.cameraError ? 0.7 : 1)
+                    
+                    HStack {
+                        Button(action: {
+                            cameraViewController.importImage()
+                        }) {
+                            Image(uiImage: cameraViewController.libraryPic)
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .zIndex(3)
+                                .rotationEffect(.degrees(rotation))
                         }
+                        
+                        Spacer()
                     }
                 }
-                .padding(.top, 20)
                 .padding(.bottom, 20)
+                .padding([.leading, .trailing], 15)
             }
-            .zIndex(2)
+            .zIndex(3)
             
             Camera(cameraViewController: cameraViewController, cameraSwitchID: $cameraSwitchID)
                 .zIndex(1)
@@ -81,51 +101,43 @@ struct CameraView: View {
                     )
                 }
             
+            if cameraViewController.showOverlay {
+                ZStack {
+                    Color.black
+                    Image(uiImage: cameraViewController.imageOverlay)
+                        .resizable()
+                        .scaledToFit()
+                }
+                .opacity(sliderValue / 100)
+                .zIndex(2)
+                
+                SliderView(value: $sliderValue)
+                    .zIndex(4)
+                    .rotationEffect(.degrees(90))
+                    .offset(x: -UIScreen.main.bounds.size.width / 2.3)
+            }
+            
             if cameraViewController.flashEffect {
-                FlashEffectView().zIndex(2)
-            }
-        }
-        //.background(Color.black)
-       // .edgesIgnoringSafeArea(.all)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    self.cameraSwitchID = UUID()
-                }) {
-                    Image("flash-auto")
-                }
-                .buttonStyle(PlainButtonStyle())
-                .zIndex(2)
-                .disabled(self.cameraError)
-                .opacity(self.cameraError ? 0.7 : 1)
+                FlashEffectView().zIndex(4)
             }
             
-            ToolbarItem(placement: .principal) {
-                Button(action: {
-                    self.cameraSwitchID = UUID()
-                }) {
-                    Image("grid")
-                }
-                .buttonStyle(PlainButtonStyle())
-                .zIndex(2)
-                .disabled(self.cameraError)
-                .opacity(self.cameraError ? 0.7 : 1)
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    self.cameraSwitchID = UUID()
-                }) {
-                    Image("camera-switch")
-                }
-                .buttonStyle(PlainButtonStyle())
-                .zIndex(2)
-                .disabled(self.cameraError)
-                .opacity(self.cameraError ? 0.7 : 1)
+            if showGrid {
+                GridView()
+                    .zIndex(2)
             }
         }
-       // .navigationBarBackButtonHidden(true)
-       // .ignoresSafeArea(.container)
+        .onChange(of: cameraViewController.deviceOrientation) { orientation in
+            withAnimation(.easeInOut) {
+                switch orientation {
+                case .portrait: rotation = 0.0
+                case .portraitUpsideDown: rotation = 180.0
+                case .landscapeLeft: rotation = 270.0
+                case .landscapeRight: rotation = 90.0
+                default: break
+                }
+            }
+        }
+        .edgesIgnoringSafeArea(.all)
         .gesture(DragGesture(minimumDistance: 30, coordinateSpace: .global).onEnded { value in
             let horizontalAmount = value.translation.width as CGFloat
             let verticalAmount = value.translation.height as CGFloat
@@ -143,10 +155,13 @@ struct CameraView: View {
                     
                 } else {
                     // swipe down
-                    
                 }
             }
         })
+    }
+    
+    func deg2rad(_ number: CGFloat) -> CGFloat {
+        return number * .pi / 180
     }
 }
 
@@ -163,14 +178,6 @@ struct Camera: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {
-//        if cameraSwitchID != context.coordinator.previousCameraSwitchID {
-//            try? uiViewController.switchCamera()
-//            context.coordinator.previousCameraSwitchID = cameraSwitchID
-//        }
-        
-//        if videoPickerID != context.coordinator.previousVideoPickerID {
-//            uiViewController.openVideoGallery()
-//        }
     }
 
     func makeCoordinator() -> Coordinator {
@@ -181,5 +188,40 @@ struct Camera: UIViewControllerRepresentable {
 struct FlashEffectView: View {
     var body: some View {
         Color.white
+    }
+}
+
+struct SliderView: UIViewRepresentable {
+    var value: Binding<Double>
+    
+    func makeUIView(context: Context) -> UISlider {
+        let slider = UISlider()
+        slider.value = Float(value.wrappedValue)
+        slider.maximumValue = 100
+        slider.minimumValue = 0
+        slider.minimumTrackTintColor = .white
+        
+        slider.addTarget(context.coordinator, action: #selector(Coordinator.valueChanged), for: .valueChanged)
+        return slider
+    }
+
+    class Coordinator {
+        var value: Binding<Double>
+
+        init(value: Binding<Double>) {
+            self.value = value
+        }
+
+        @objc func valueChanged(_ sender: UISlider) {
+            value.wrappedValue = Double(sender.value)
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(value: value)
+    }
+    
+    func updateUIView(_ uiView: UISlider, context: Context) {
+        uiView.value = Float(value.wrappedValue)
     }
 }
